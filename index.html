@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ekin Endüstriyel | Sayfa Yönetimi</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#f0f3f8;color:#19304e;font:14px/1.5 system-ui,Arial,sans-serif}button,input,textarea{font:inherit}button{cursor:pointer}header{background:white;padding:17px 25px;border-bottom:1px solid #e0e5ee;display:flex;justify-content:space-between;align-items:center;gap:15px;flex-wrap:wrap}header strong{font-size:19px}header small{color:#8190a5;font-weight:400}.tabs{display:flex;gap:5px;background:#edf1f7;padding:4px;border-radius:10px}.tabs button{border:0;background:none;padding:9px 14px;border-radius:7px;color:#58708d}.tabs .active{background:#204b90;color:white}.layout{max-width:1250px;margin:auto;padding:25px;display:grid;grid-template-columns:minmax(300px,1fr) minmax(320px,1fr);gap:28px;align-items:start}.editor{background:white;border:1px solid #e0e6ef;border-radius:16px;padding:25px}h2{font-size:22px;margin:0 0 6px}h3{font-size:15px;margin:25px 0 10px}.muted{font-size:12px;color:#7a899e}label{display:block;font-size:12px;font-weight:650;margin:12px 0 5px}input:not([type=color]),textarea{width:100%;border:1px solid #d7dfeb;border-radius:8px;padding:10px 12px;color:#19304e;background:white}textarea{min-height:100px;resize:vertical}input:focus,textarea:focus{outline:2px solid #9cbaed;outline-offset:1px}.btn{border:1px solid #d7dfeb;border-radius:8px;padding:9px 13px;background:white;color:#204b90}.primary{background:#2458aa;border-color:#2458aa;color:white}.colors,.actions{display:flex;gap:12px;flex-wrap:wrap}.colors input{width:65px;height:35px;padding:2px;border:1px solid #d7dfeb;border-radius:7px;background:white}.link-edit{border:1px solid #e0e6ef;border-radius:12px;background:#fafbfd;padding:13px;margin:12px 0}.link-head{display:flex;justify-content:space-between;gap:8px;align-items:center}.link-head strong{font-size:12px;overflow-wrap:anywhere}.controls{display:flex;gap:4px}.controls button{border:1px solid #dce3ed;border-radius:6px;padding:4px 8px;background:white;color:#446181}button:disabled{opacity:.3;cursor:default}.actions{margin-top:25px}.info{padding:12px;background:#edf3fd;color:#526d93;border-radius:9px;margin-top:18px;font-size:12px}.status{font-size:12px;color:#357444;margin-top:10px;min-height:20px}.preview{position:sticky;top:20px}.preview-label{display:flex;justify-content:space-between;font-size:11px;letter-spacing:1px;color:#798ba3;margin:0 4px 12px}iframe{width:100%;height:1030px;border:0;border-radius:18px;background:#f5f6f8;box-shadow:0 15px 45px #17304d0c}body.view .editor{display:none}body.view .layout{display:block;max-width:570px}body.view .preview{position:static}[hidden]{display:none!important}@media(max-width:800px){.layout{grid-template-columns:1fr;padding:15px}.editor{padding:20px}.preview{position:static}header{padding:15px}}
+</style>
+</head>
+<body>
+<header>
+<strong>EKİN <small>/ Sayfa Yönetimi</small></strong>
+<nav class="tabs" aria-label="Görünüm">
+<button id="editTab" class="active" aria-pressed="true">Admin paneli</button>
+<button id="viewTab" aria-pressed="false">Müşteri görünümü</button>
+</nav>
+</header>
+<main class="layout">
+<section class="editor">
+<h2>Sayfanı düzenle</h2>
+<p class="muted">Bilgileri değiştir; müşteri ekranını anında önizle.</p>
+<h3>Kurumsal bilgiler</h3>
+<label for="company">Firma adı</label><input id="company" maxlength="120">
+<label for="description">Tanıtım metni</label><textarea id="description" maxlength="1000"></textarea>
+<label for="logo">Firma logosu</label><input id="logo" type="file" accept="image/png,image/jpeg,image/webp">
+<p class="muted">PNG, JPG veya WebP · En fazla 2 MB</p>
+<button class="btn" id="clearLogo">Logoyu kaldır</button>
+<h3>Sayfa renkleri</h3>
+<div class="colors"><div><label for="topColor">Üst renk</label><input id="topColor" type="color"></div><div><label for="bottomColor">Alt renk</label><input id="bottomColor" type="color"></div></div>
+<h3>Kartvizit bilgileri</h3>
+<p class="muted">Rehbere kaydedilecek bilgiler.</p>
+<label for="phone">Telefon</label><input id="phone" type="tel">
+<label for="email">E-posta</label><input id="email" type="email">
+<label for="website">Web sitesi</label><input id="website" type="url">
+<h3>Sosyal medya</h3>
+<p class="muted">Boş bırakılan hesaplar müşteri sayfasında gösterilmez.</p>
+<div id="socialFields"></div>
+<h3>Bağlantı kartları</h3>
+<p class="muted">Kartvizit için vcard, telefon için tel:, e-posta için mailto: yaz.</p>
+<div id="linkFields"></div>
+<button class="btn" id="add">＋ Bağlantı ekle</button>
+<div class="actions">
+<button class="btn primary" id="download">Müşteri sayfasını indir ↓</button>
+<button class="btn" id="backup">Yedek indir</button>
+<button class="btn" id="import">Yedek yükle</button>
+<input id="backupFile" type="file" accept=".json" hidden>
+</div>
+<p class="info">Bu taslakta bilgiler tarayıcında saklanır. İndirilen müşteri sayfasında admin paneli bulunmaz. Yayını güncellemek için indirdiğin index.html dosyasını GitHub’a yükle.</p>
+<p class="status" id="status" role="status" aria-live="polite"></p>
+</section>
+<section class="preview">
+<div class="preview-label"><span>CANLI ÖNİZLEME</span><span>MÜŞTERİ EKRANI</span></div>
+<iframe id="frame" title="Müşteri sayfası" sandbox="allow-scripts allow-popups allow-popups-to-escape-sandbox allow-downloads"></iframe>
+</section>
+</main>
+<script>
+(()=>{
+const $=id=>document.getElementById(id);
+const names={whatsapp:'WhatsApp',instagram:'Instagram',youtube:'YouTube',facebook:'Facebook',x:'X',linkedin:'LinkedIn'};
+const defaults={
+company:'Ekin Endüstriyel',
+description:'Yeni Nesil Mühendislik vizyonuyla Türkiye’nin ilk yerli plakalı ısı eşanjörünü üreten, küresel pazarda çözüm ortağı olan inovatif bir teknoloji markasıyız.',
+logo:'',topColor:'#1d4894',bottomColor:'#ed001c',
+phone:'+90 216 232 2412',email:'info@ekinendustriyel.com',website:'https://www.ekinendustriyel.com/',
+socials:{whatsapp:'',instagram:'',youtube:'',facebook:'',x:'',linkedin:''},
+links:[
+{title:'Kartvizit',subtitle:'Tek dokunuşla rehbere kaydet',url:'vcard'},
+{title:'Ekin Endüstriyel | Sürdürülebilir Kalite, Güvenilir Mühendislik',subtitle:'Resmi web sitesi',url:'https://www.ekinendustriyel.com/'},
+{title:'+90 216 232 2412',subtitle:'Aramak için dokun',url:'tel:+902162322412'},
+{title:'444 35 46',subtitle:'Aramak için dokun',url:'tel:4443546'},
+{title:'info@ekinendustriyel.com',subtitle:'Kurumsal e-posta',url:'mailto:info@ekinendustriyel.com'}
+]};
+const key='ekin-canvas-admin-v2';
+let data=structuredClone(defaults),timer,counter=0;
+const escape=v=>String(v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function safe(url,social=false){try{return (social?['https:','http:']:['https:','http:','tel:','mailto:']).includes(new URL(url).protocol)}catch{return false}}
+function checked(d){
+if(!d||typeof d!=='object')throw Error('Geçersiz yedek.');
+const r=structuredClone(defaults);
+for(const k of ['company','description','phone','email','website']){if(typeof d[k]!=='string')throw Error('Eksik bilgi: '+k);r[k]=d[k].slice(0,2000)}
+for(const k of ['topColor','bottomColor']){if(!/^#[0-9a-f]{6}$/i.test(d[k]))throw Error('Geçersiz renk.');r[k]=d[k]}
+if(d.logo&&(!/^data:image\/(png|jpeg|webp);base64,[a-z0-9+/=\s]+$/i.test(d.logo)||d.logo.length>3000000))throw Error('Geçersiz logo.');
+r.logo=d.logo||'';
+if(!Array.isArray(d.links)||d.links.length>100)throw Error('Geçersiz bağlantı listesi.');
+r.links=d.links.map(l=>{
+if(!l||['title','subtitle','url'].some(k=>typeof l[k]!=='string')||(l.url!=='vcard'&&!safe(l.url)))throw Error('Geçersiz bağlantı adresi.');
+return {title:l.title.slice(0,200),subtitle:l.subtitle.slice(0,300),url:l.url.slice(0,2000)};
+});
+for(const k in names){const v=d.socials?.[k]||'';if(typeof v!=='string'||v&&!safe(v,true))throw Error('Geçersiz sosyal medya adresi.');r.socials[k]=v}
+return r;
+}
+try{const s=localStorage.getItem(key);if(s)data=checked(JSON.parse(s))}catch{}
+const shapes={
+web:'<circle cx="12" cy="12" r="9"/><ellipse cx="12" cy="12" rx="4" ry="9"/><path d="M3 12h18"/>',
+download:'<path d="M12 3v12m-5-5 5 5 5-5M4 16v4h16v-4"/>',
+phone:'<path d="M7 3H4a1 1 0 0 0-1 1c0 9.4 7.6 17 17 17a1 1 0 0 0 1-1v-3l-5-2-2 2a13 13 0 0 1-7-7l2-2Z"/>',
+email:'<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/>',
+instagram:'<rect x="4" y="4" width="16" height="16" rx="4"/><circle cx="12" cy="12" r="4"/><path d="M17 7h.01"/>',
+youtube:'<rect x="3" y="6" width="18" height="12" rx="4"/><path d="m10 9 5 3-5 3Z"/>',
+whatsapp:'<path d="M20 11.5a8.5 8.5 0 0 1-12.6 7.4L3 20l1.2-4.1A8.5 8.5 0 1 1 20 11.5Z"/><path d="M8 8c0 4 2 6 6 7l2-2-3-1-1 1-2-3 1-1Z"/>'
+};
+function icon(k){if(k==='facebook')return '<b>f</b>';if(k==='linkedin')return '<b>in</b>';if(k==='x')return '𝕏';return '<svg viewBox="0 0 24 24" aria-hidden="true">'+(shapes[k]||shapes.web)+'</svg>'}
+function vc(v){return v.replace(/\\/g,'\\\\').replace(/\r?\n/g,'\\n').replace(/;/g,'\\;').replace(/,/g,'\\,')}
+function html(){
+const contact=['BEGIN:VCARD','VERSION:3.0','N:;'+vc(data.company)+';;;','FN:'+vc(data.company),'ORG:'+vc(data.company),'TEL;TYPE=WORK,VOICE:'+vc(data.phone),'EMAIL;TYPE=WORK:'+vc(data.email),'URL:'+vc(data.website),'END:VCARD',''].join('\r\n');
+const cardUrl='data:text/vcard;charset=utf-8,'+encodeURIComponent(contact);
+const socials=Object.entries(data.socials).filter(([k,u])=>safe(u,true)).map(([k,u])=>'<a href="'+escape(u)+'" aria-label="'+names[k]+'" target="_blank" rel="noopener noreferrer">'+icon(k)+'</a>').join('');
+const cards=data.links.map(l=>{
+const card=l.url==='vcard';if(!card&&!safe(l.url))return '';
+const kind=card?'download':l.url.startsWith('tel:')?'phone':l.url.startsWith('mailto:')?'email':'web';
+return '<a class="card" href="'+escape(card?cardUrl:l.url)+'" '+(card?'download="Ekin-Kartvizit.vcf"':/^https?:/i.test(l.url)?'target="_blank" rel="noopener noreferrer"':'')+'><div><strong>'+escape(l.title)+'</strong><small>'+escape(l.subtitle)+'</small></div>'+icon(kind)+'</a>';
+}).join('');
+return `<!DOCTYPE html><html lang="tr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${escape(data.company)} | İletişim</title><meta name="description" content="${escape(data.description)}"><style>
+*{box-sizing:border-box}body{margin:0;padding:20px 14px;background:#f5f6f8;color:white;font-family:Arial,sans-serif;min-height:100vh;display:flex;align-items:center;justify-content:center}main{width:448px;max-width:100%;padding:23px;border-radius:25px;background:linear-gradient(170deg,${data.topColor} 0%,${data.topColor} 34%,${data.bottomColor} 100%);box-shadow:0 18px 55px #182b4820}.panel{padding:30px 32px;border:1px solid #ffffff42;border-radius:19px;background:linear-gradient(180deg,#112e5bc9,#19355b88 48%,#490b1666)}.logo{width:84px;height:84px;border-radius:50%;background:white;border:2px solid #d3d9e3;margin:0 auto 18px;display:grid;place-items:center;overflow:hidden;color:#234780;font-size:30px;font-weight:bold}.logo img{width:100%;height:100%;object-fit:contain;padding:6px}h1{text-align:center;font-size:29px;letter-spacing:-1px;margin:0 0 14px;overflow-wrap:anywhere}.bio{text-align:center;font-size:15px;line-height:1.75;margin:0;color:#f4f6ff;white-space:pre-line;overflow-wrap:anywhere}.socials{display:flex;justify-content:center;gap:9px;margin:24px 0 30px;flex-wrap:wrap}.socials a{display:grid;place-items:center;width:35px;height:35px;border-radius:50%;color:white;text-decoration:none;font-size:20px}.socials a:hover{background:#ffffff26}svg{width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}.links{display:flex;flex-direction:column;gap:15px;${socials?'':'margin-top:30px;'}}.card{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:17px 16px;min-height:74px;border:1px solid #ffffff42;border-radius:17px;background:#ffffff20;color:white;text-decoration:none;transition:background .2s,transform .2s}.card:hover{background:#ffffff32;transform:translateY(-2px)}a:focus-visible{outline:3px solid white;outline-offset:4px}.card strong{font-size:15px;line-height:1.2;display:block;overflow-wrap:anywhere}.card small{display:block;margin-top:6px;font-size:13px;line-height:1.3;color:#e2e5ed;overflow-wrap:anywhere}footer{font-size:11px;text-align:center;margin-top:33px;color:#f6e8ea}@media(max-width:420px){body{padding:10px}main{padding:16px}.panel{padding:28px 20px}h1{font-size:27px}.bio{font-size:14px}.card{padding:16px 14px}}@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style></head><body><main><div class="panel"><div class="logo">${data.logo?'<img src="'+escape(data.logo)+'" alt="'+escape(data.company)+' logosu">':escape(data.company.slice(0,1).toLocaleUpperCase('tr'))}</div><h1>${escape(data.company)}</h1><p class="bio">${escape(data.description)}</p>${socials?'<nav class="socials" aria-label="Sosyal medya">'+socials+'</nav>':''}<section class="links" aria-label="Kurumsal bağlantılar">${cards}</section><footer>© ${new Date().getFullYear()} ${escape(data.company)}</footer></div></main></body></html>`;
+}
+function update(){clearTimeout(timer);timer=setTimeout(()=>{
+$('frame').srcdoc=html();
+try{localStorage.setItem(key,JSON.stringify(data));$('status').textContent='Değişiklikler bu tarayıcıda kaydedildi.'}catch{$('status').textContent='Tarayıcıya kaydedilemedi. Bilgilerini korumak için yedek indir.'}
+},200)}
+function field(label,value,change,placeholder=''){
+const wrap=document.createElement('div'),lab=document.createElement('label'),input=document.createElement('input');input.id='input-'+(++counter);lab.htmlFor=input.id;lab.textContent=label;input.value=value;input.placeholder=placeholder;input.maxLength=2000;input.oninput=()=>change(input.value,input);wrap.append(lab,input);return wrap;
+}
+function renderLinks(){
+$('linkFields').replaceChildren();
+data.links.forEach((l,i)=>{
+const box=document.createElement('div');box.className='link-edit';
+const head=document.createElement('div');head.className='link-head';
+const title=document.createElement('strong');title.textContent=(i+1)+'. '+l.title;
+const controls=document.createElement('div');controls.className='controls';
+function btn(text,label,fn,disabled=false){const b=document.createElement('button');b.textContent=text;b.title=label;b.setAttribute('aria-label',label);b.disabled=disabled;b.onclick=fn;controls.append(b)}
+btn('↑','Yukarı taşı',()=>{[data.links[i-1],data.links[i]]=[data.links[i],data.links[i-1]];renderLinks();update()},i===0);
+btn('↓','Aşağı taşı',()=>{[data.links[i+1],data.links[i]]=[data.links[i],data.links[i+1]];renderLinks();update()},i===data.links.length-1);
+btn('Sil','Bağlantıyı sil',()=>{if(confirm('Bu bağlantı silinsin mi?')){data.links.splice(i,1);renderLinks();update()}});
+head.append(title,controls);
+box.append(head,field('Başlık',l.title,v=>{l.title=v;title.textContent=(i+1)+'. '+v;update()}),field('Alt açıklama',l.subtitle,v=>{l.subtitle=v;update()}),field('Bağlantı adresi',l.url,(v,input)=>{l.url=v.trim();input.setCustomValidity(l.url==='vcard'||safe(l.url)?'':'Geçerli bir https://, tel: veya mailto: adresi yaz.');update()},'https://… / tel:… / mailto:… / vcard'));
+$('linkFields').append(box);
+});
+}
+function populate(){
+for(const k of ['company','description','phone','email','website','topColor','bottomColor']){$(k).value=data[k];$(k).oninput=()=>{data[k]=$(k).value;update()}}
+$('socialFields').replaceChildren();
+for(const k in names)$('socialFields').append(field(names[k],data.socials[k],(v,input)=>{data.socials[k]=v.trim();input.setCustomValidity(!v.trim()||safe(v.trim(),true)?'':'https:// ile başlayan geçerli adresi yaz.');update()},k==='whatsapp'?'https://wa.me/90…':'https://…'));
+renderLinks();$('frame').srcdoc=html();
+}
+$('add').onclick=()=>{data.links.push({title:'Yeni bağlantı',subtitle:'Kısa açıklama',url:'https://'});renderLinks();update();$('linkFields').lastElementChild.scrollIntoView({block:'center',behavior:'smooth'})};
+$('logo').onchange=e=>{
+const file=e.target.files[0];if(!file)return;
+if(!['image/png','image/jpeg','image/webp'].includes(file.type)||file.size>2097152){$('status').textContent='2 MB altında PNG, JPG veya WebP seç.';e.target.value='';return}
+const reader=new FileReader();reader.onload=()=>{const img=new Image();img.onload=()=>{data.logo=reader.result;update()};img.onerror=()=>$('status').textContent='Logo okunamadı.';img.src=reader.result};reader.onerror=()=>$('status').textContent='Dosya okunamadı.';reader.readAsDataURL(file);
+};
+$('clearLogo').onclick=()=>{data.logo='';$('logo').value='';update()};
+function download(content,name,type){const url=URL.createObjectURL(new Blob([content],{type}));const a=document.createElement('a');a.href=url;a.download=name;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),3000)}
+function verify(){try{checked(data);const invalid=[...document.querySelectorAll('.editor input')].find(e=>!e.checkValidity());if(invalid){invalid.reportValidity();return false}return true}catch(e){$('status').textContent=e.message;return false}}
+$('download').onclick=()=>{if(verify()){download(html(),'index.html','text/html;charset=utf-8');$('status').textContent='Müşteri sayfası indirildi. GitHub’daki index.html dosyasını bununla güncelle.'}};
+$('backup').onclick=()=>{if(verify())download(JSON.stringify(data,null,2),'ekin-yedek.json','application/json')};
+$('import').onclick=()=>$('backupFile').click();
+$('backupFile').onchange=async e=>{const f=e.target.files[0];if(!f)return;try{if(f.size>4194304)throw Error('Dosya çok büyük.');const incoming=checked(JSON.parse(await f.text()));if(confirm('Mevcut bilgiler yedekteki bilgilerle değiştirilsin mi?')){data=incoming;populate();update()}}catch(err){$('status').textContent='Yedek yüklenemedi: '+err.message}finally{e.target.value=''}};
+function view(on){document.body.classList.toggle('view',on);$('editTab').classList.toggle('active',!on);$('viewTab').classList.toggle('active',on);$('editTab').setAttribute('aria-pressed',String(!on));$('viewTab').setAttribute('aria-pressed',String(on))}
+$('editTab').onclick=()=>view(false);$('viewTab').onclick=()=>view(true);
+populate();
+})();
+</script>
+</body>
+</html>
