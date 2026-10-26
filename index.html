@@ -2,889 +2,417 @@
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>EKİN — Dijital Katalog</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ekin | Sayfa Yönetimi</title>
 <style>
-:root {
-  --primary: #12343b;
-  --accent: #d5ed91;
-  --background: #fafbf7;
-  --radius: 12px;
-}
-* { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
-body {
-  margin: 0;
-  background: var(--background);
-  color: #19363b;
-  font-family: Arial, sans-serif;
-}
-button, input, textarea, select { font: inherit; }
-button, a { -webkit-tap-highlight-color: transparent; }
-button { cursor: pointer; }
-a { color: inherit; }
-button:focus-visible, a:focus-visible,
-input:focus-visible, textarea:focus-visible {
-  outline: 3px solid #86ac4d;
-  outline-offset: 3px;
-}
-.container { width: min(1160px, 90%); margin: auto; }
-.top {
-  padding: 10px;
-  text-align: center;
-  background: var(--primary);
-  color: #cbd8ce;
-  font-size: 12px;
-}
-header {
-  background: var(--background);
-  border-bottom: 1px solid #dfe5d8;
-}
-.nav {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 20px;
-  min-height: 90px;
-}
-.logo {
-  text-decoration: none;
-  font-size: 46px;
-  font-weight: 900;
-  letter-spacing: -4px;
-}
-.logo span { color: #789b56; }
-.logo small {
-  display: block;
-  font-size: 9px;
-  letter-spacing: 4px;
-  margin-top: 2px;
-}
-nav { display: flex; gap: 28px; }
-nav a { font-size: 13px; text-decoration: none; }
-.btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 20px;
-  border: 0;
-  border-radius: var(--radius);
-  background: var(--accent);
-  color: #18352d;
-  padding: 15px 21px;
-  text-decoration: none;
-  font-size: 13px;
-  font-weight: bold;
-}
-.hero {
-  background: var(--primary);
-  color: white;
-  padding: 70px 0;
-  overflow: hidden;
-}
-.hero-inner {
-  display: grid;
-  grid-template-columns: 1.2fr 1fr;
-  align-items: center;
-  gap: 40px;
-}
-.eyebrow {
-  font-size: 11px;
-  letter-spacing: 3px;
-  color: #a5bd7a;
-  margin-bottom: 22px;
-}
-h1 {
-  font-size: clamp(36px, 5vw, 62px);
-  line-height: 1.13;
-  font-weight: 500;
-  letter-spacing: -2px;
-  margin: 0;
-  white-space: pre-line;
-  overflow-wrap: anywhere;
-}
-.hero p {
-  color: #b5c8bf;
-  font-size: 15px;
-  line-height: 1.9;
-  max-width: 490px;
-  margin: 25px 0 30px;
-  white-space: pre-line;
-}
-.hero-art {
-  aspect-ratio: 1;
-  display: grid;
-  place-items: center;
-  border: 1px solid #ffffff24;
-  border-radius: 50%;
-  background: radial-gradient(#b0d69028, transparent 70%);
-}
-.hero-art svg { width: 85%; height: 85%; }
-.benefits {
-  background: #edf1e5;
-  border-bottom: 1px solid #dfe5d7;
-}
-.benefit-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 25px;
-  padding: 26px 0;
-}
-.benefit-grid strong { font-size: 13px; }
-.benefit-grid p { color: #7e8d72; font-size: 11px; }
-.catalog { padding: 65px 0; }
-h2 { font-size: 32px; font-weight: 500; letter-spacing: -1px; }
-.intro { color: #7d8b74; font-size: 14px; line-height: 1.8; }
-.toolbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 15px;
-  margin: 30px 0;
-  padding: 16px 0;
-  border-block: 1px solid #dfe5d7;
-}
-.tabs { display: flex; flex-wrap: wrap; gap: 7px; }
-.tab {
-  border: 0;
-  border-radius: 6px;
-  padding: 11px 14px;
-  background: #edf1e5;
-  color: #637653;
-  font-size: 12px;
-}
-.tab.active { background: var(--primary); color: white; }
-.search {
-  border: 1px solid #d5deca;
-  border-radius: 7px;
-  padding: 12px;
-  background: white;
-  width: 210px;
-}
-.products {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 22px;
-}
-.product {
-  border: 1px solid #dfe6d6;
-  background: white;
-  border-radius: var(--radius);
-  overflow: hidden;
-  padding: 0;
-  text-align: left;
-  color: inherit;
-  transition: transform .2s, box-shadow .2s;
-}
-.product:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 30px #18352d12;
-}
-.product-art {
-  height: 210px;
-  background: radial-gradient(#e3eadd, #f0f3eb);
-  display: grid;
-  place-items: center;
-}
-.product-art svg { width: 180px; height: 180px; }
-.product-copy { padding: 23px; }
-.tag { font-size: 9px; letter-spacing: 2px; color: #799858; }
-.product h3 { font-size: 18px; line-height: 1.5; }
-.product p { font-size: 12px; color: #849276; line-height: 1.8; }
-.product-link {
-  display: block;
-  border-top: 1px solid #e7ecdf;
-  margin-top: 20px;
-  padding-top: 15px;
-  font-size: 12px;
-}
-.empty { padding: 45px; background: #edf1e5; grid-column: 1 / -1; }
-.widget { padding: 28px 0; overflow-wrap: anywhere; }
-.widget h2, .widget p { white-space: pre-wrap; }
-.widget p { line-height: 1.9; }
-.widget img { max-width: 100%; max-height: 600px; border-radius: var(--radius); }
-.widget hr { border: 0; border-top: 1px solid #cbd7be; }
-.widget-card {
-  background: #edf2e4;
-  border: 1px solid #d7e1ca;
-  border-radius: var(--radius);
-  padding: 32px;
-}
-.contact {
-  margin-top: 35px;
-  padding: 55px 0;
-  color: white;
-  background: var(--primary);
-}
-.contact-inner {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 25px;
-}
-.contact p { color: #b1c3b7; line-height: 1.8; }
-footer {
-  padding: 28px 0;
-  color: #7d8c73;
-  font-size: 12px;
-}
-.edit-toggle {
-  position: fixed;
-  bottom: 22px;
-  right: 22px;
-  z-index: 50;
-  border: 1px solid #adc78a;
-  border-radius: 10px;
-  padding: 15px 20px;
-  background: var(--primary);
-  color: var(--accent);
-  box-shadow: 0 5px 25px #12343b30;
-}
-.editor {
-  position: fixed;
-  inset: 0 0 0 auto;
-  width: 355px;
-  max-width: 100%;
-  background: white;
-  z-index: 60;
-  box-shadow: -10px 0 45px #12343b25;
-  overflow-y: auto;
-  padding: 24px;
-}
-.editor[hidden] { display: none; }
-.editor-heading {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-.editor h2 { font-size: 23px; margin: 0; }
-.editor h3 { font-size: 14px; margin-top: 26px; }
-.editor .hint { color: #819074; font-size: 12px; line-height: 1.8; }
-.editor label {
-  display: block;
-  margin: 17px 0;
-  font-size: 12px;
-  font-weight: bold;
-}
-.editor input:not([type=color]):not([type=range]),
-.editor textarea, .editor select {
-  display: block;
-  width: 100%;
-  padding: 10px;
-  margin-top: 8px;
-  background: #fafcf6;
-  border: 1px solid #d7e1ca;
-  border-radius: 6px;
-  font-size: 13px;
-}
-.editor textarea { min-height: 85px; resize: vertical; }
-.editor input[type=color] {
-  display: block;
-  width: 100%;
-  height: 38px;
-  margin-top: 8px;
-  border: 1px solid #d7e1ca;
-  background: white;
-}
-.editor input[type=range] { width: 100%; margin-top: 12px; }
-.editor-buttons { display: flex; gap: 8px; flex-wrap: wrap; }
-.small-btn {
-  border: 1px solid #d5dfc9;
-  padding: 9px 11px;
-  border-radius: 6px;
-  background: #f4f7ed;
-  color: #3d5936;
-  font-size: 12px;
-}
-.widget-editor {
-  border: 1px solid #dce5d1;
-  padding: 14px;
-  margin-top: 14px;
-  border-radius: 8px;
-}
-.widget-editor summary { cursor: pointer; font-size: 13px; }
-.widget-editor label { font-size: 11px; }
-.status { color: #68854c; min-height: 20px; font-size: 12px; line-height: 1.7; }
-dialog {
-  border: 1px solid #cfdbbf;
-  border-radius: 15px;
-  padding: 30px;
-  width: min(560px, 90%);
-  color: #19363b;
-}
-dialog::backdrop { background: #102f38aa; }
-dialog p { line-height: 1.9; color: #718563; }
-.close { float: right; }
-@media (min-width: 1100px) {
-  body.editing { padding-right: 355px; }
-}
-@media (max-width: 760px) {
-  .nav { min-height: 80px; gap: 15px; }
-  nav { display: none; }
-  .logo { font-size: 39px; }
-  .hero { padding: 45px 0; }
-  .hero-inner { grid-template-columns: minmax(0, 1fr); gap: 25px; }
-  .hero-art { max-width: 290px; width: 100%; margin: auto; }
-  .benefit-grid { grid-template-columns: 1fr 1fr; gap: 15px; }
-  .catalog { padding: 40px 0; }
-  h2 { font-size: 27px; }
-  .toolbar { flex-wrap: wrap; }
-  .search { width: 100%; }
-  .tab { font-size: 11px; padding: 10px; }
-  .products { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
-  .product-art { height: 155px; overflow: hidden; }
-  .product-art svg { width: 140px; height: 140px; }
-  .product-copy { padding: 15px; }
-  .product h3 { font-size: 14px; }
-  .product p { font-size: 11px; }
-  .tag { font-size: 8px; letter-spacing: 1px; }
-  .contact-inner { flex-direction: column; align-items: flex-start; }
-}
+*{box-sizing:border-box}
+body{margin:0;background:#f1f4f8;color:#19304e;font:14px/1.5 system-ui,Arial,sans-serif}
+button,input,textarea{font:inherit}
+button{cursor:pointer}
+button:disabled{opacity:.35;cursor:default}
+.topbar{background:white;border-bottom:1px solid #dfe5ef;padding:16px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.topbar strong{font-size:18px}
+.tabs{display:flex;background:#eef2f7;border-radius:10px;padding:4px;gap:4px}
+.tabs button{border:0;background:none;padding:9px 16px;color:#61718a;border-radius:7px}
+.tabs button.active{background:#193d77;color:white}
+.workspace{max-width:1320px;margin:auto;padding:25px;display:grid;grid-template-columns:minmax(320px,1fr) minmax(320px,1fr);gap:26px;align-items:start}
+.settings{background:white;padding:25px;border:1px solid #e0e6ef;border-radius:16px}
+h2{font-size:21px;margin:0 0 8px}
+h3{font-size:15px;margin:25px 0 12px}
+.muted{color:#728198;font-size:12px}
+label{display:block;font-size:12px;font-weight:650;margin:12px 0 5px}
+input:not([type=color]),textarea{width:100%;border:1px solid #d5deeb;border-radius:8px;padding:10px 12px;background:white;color:#19304e}
+textarea{resize:vertical;min-height:90px}
+input:focus,textarea:focus{outline:2px solid #91b0ed;outline-offset:1px}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.row>*{flex:1}
+.btn{border:1px solid #d5deeb;background:white;color:#193d77;border-radius:8px;padding:9px 12px}
+.primary{background:#2155a7;color:white;border-color:#2155a7}
+.danger{color:#b53343}
+.group{border:1px solid #dfe5ef;border-radius:12px;margin:12px 0;padding:13px;background:#fbfcfe}
+.group-head{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.group-head strong{font-size:13px;overflow-wrap:anywhere}
+.group-head .buttons{display:flex;gap:4px;flex-shrink:0}
+.mini{border:1px solid #dce3ef;background:white;color:#37547c;padding:4px 9px;border-radius:6px}
+.color-row{display:flex;gap:20px}
+.color-row input{width:60px;height:36px;padding:2px;border:1px solid #d5deeb;border-radius:7px;background:white}
+.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:24px}
+.notice{margin:17px 0 0;padding:12px;background:#eff4fc;border-radius:9px;font-size:12px;color:#546b8e}
+.preview-wrap{position:sticky;top:20px}
+.preview-title{display:flex;justify-content:space-between;align-items:center;margin:0 0 12px;padding:0 3px;color:#63748e;font-size:12px}
+iframe{width:100%;height:960px;border:0;border-radius:17px;background:#f5f6f8;box-shadow:0 12px 45px #17304d0d}
+.status{font-size:12px;color:#39704d;min-height:20px;margin-top:10px}
+body.customer .workspace{display:block;max-width:570px}
+body.customer .settings{display:none}
+body.customer .preview-wrap{position:static}
+body.customer iframe{height:1050px}
+[hidden]{display:none!important}
+@media(max-width:850px){.workspace{grid-template-columns:1fr;padding:16px}.preview-wrap{position:static}.settings{padding:20px}.topbar{padding:14px 16px}iframe{height:1010px}}
 </style>
 </head>
 <body>
-
-<div class="top">Isı transferinde mühendisliğin gücü.</div>
-
-<header>
-  <div class="container nav">
-    <a class="logo" href="#">ek<span>ı</span>n<small>ENDÜSTRİYEL</small></a>
-    <nav>
-      <a href="#urunler">Ürünlerimiz</a>
-      <a href="#ozel">Özel içerikler</a>
-      <a href="#iletisim">İletişim</a>
-    </nav>
-    <a class="btn" href="#iletisim">Bize ulaşın →</a>
-  </div>
+<header class="topbar">
+  <strong>EKİN <span style="font-weight:400;color:#78879c">/ Sayfa Yönetimi</span></strong>
+  <nav class="tabs" aria-label="Görünüm">
+    <button id="adminTab" class="active" type="button" aria-pressed="true">Admin paneli</button>
+    <button id="customerTab" type="button" aria-pressed="false">Müşteri görünümü</button>
+  </nav>
 </header>
 
-<main>
-  <section class="hero">
-    <div class="container hero-inner">
-      <div>
-        <div class="eyebrow">EKİN DİJİTAL KATALOG</div>
-        <h1 id="hero-title"></h1>
-        <p id="hero-description"></p>
-        <a href="#urunler" class="btn">Ürünleri keşfedin →</a>
-      </div>
-      <div class="hero-art" id="hero-art"></div>
-    </div>
-  </section>
+<main class="workspace">
+<section class="settings">
+  <h2>Sayfanı düzenle</h2>
+  <div class="muted">Değişikliklerini sağdaki önizlemede görebilirsin.</div>
 
-  <section class="benefits">
-    <div class="container benefit-grid">
-      <div><strong>Mühendislik odaklı</strong><p>İhtiyaca uygun çözümler</p></div>
-      <div><strong>Geniş ürün ailesi</strong><p>Birbirini tamamlayan sistemler</p></div>
-      <div><strong>Verimli sistemler</strong><p>Geleceği düşünen teknoloji</p></div>
-      <div><strong>Teknik destek</strong><p>Her adımda yanınızda</p></div>
-    </div>
-  </section>
+  <h3>Kurumsal bilgiler</h3>
+  <label for="company">Firma adı</label>
+  <input id="company" maxlength="100">
+  <label for="description">Tanıtım metni</label>
+  <textarea id="description" maxlength="700"></textarea>
 
-  <section class="catalog container" id="urunler">
-    <div class="eyebrow">ÜRÜN DÜNYAMIZ</div>
-    <h2>Her ihtiyaç için doğru çözüm.</h2>
-    <p class="intro">Ürün gruplarını keşfedin, projeniz için uygun çözümü bulun.</p>
-    <div class="toolbar">
-      <div class="tabs" id="tabs"></div>
-      <input class="search" id="search" type="search"
-        placeholder="Ürün ara…" aria-label="Ürün ara">
-    </div>
-    <div class="products" id="products"></div>
-  </section>
+  <label for="logoFile">Firma logosu</label>
+  <input id="logoFile" type="file" accept="image/png,image/jpeg,image/webp">
+  <div class="muted">PNG, JPG veya WebP · En fazla 2 MB</div>
+  <button class="btn" id="removeLogo" type="button" style="margin-top:8px">Logoyu kaldır</button>
 
-  <div id="ozel"></div>
+  <h3>Arka plan renkleri</h3>
+  <div class="color-row">
+    <div><label for="colorTop">Üst renk</label><input type="color" id="colorTop"></div>
+    <div><label for="colorBottom">Alt renk</label><input type="color" id="colorBottom"></div>
+  </div>
 
-  <section class="contact" id="iletisim">
-    <div class="container contact-inner">
-      <div>
-        <div class="eyebrow">BİRLİKTE DAHA İLERİYE</div>
-        <h2>Doğru çözüm, bir görüşmeyle başlar.</h2>
-        <p>Teknik bilgi ve ürün seçimi için üreticiyle iletişime geçin.</p>
-      </div>
-      <a class="btn" href="https://www.ekinendustriyel.com/"
-        target="_blank" rel="noopener noreferrer">EKİN web sitesi →</a>
-    </div>
-  </section>
+  <h3>Kartvizit bilgileri</h3>
+  <p class="muted">Kartvizit indirme bağlantısı bu bilgilerle oluşturulur.</p>
+  <label for="phone">Telefon</label><input id="phone" type="tel">
+  <label for="email">E-posta</label><input id="email" type="email">
+  <label for="website">Web sitesi</label><input id="website" type="url">
+
+  <h3>Sosyal medya</h3>
+  <p class="muted">Adresi boş kalan hesaplar müşteri sayfasında gösterilmez.</p>
+  <div id="socialFields"></div>
+
+  <h3>Bağlantı kartları</h3>
+  <p class="muted">Kartları oklarla sırala. Telefon için tel:, e-posta için mailto: kullan.</p>
+  <div id="linkFields"></div>
+  <button class="btn" id="addLink" type="button">＋ Yeni bağlantı ekle</button>
+
+  <div class="actions">
+    <button class="btn primary" id="download" type="button">Müşteri sayfasını indir ↓</button>
+    <button class="btn" id="backup" type="button">Yedek indir</button>
+    <button class="btn" id="restore" type="button">Yedek yükle</button>
+    <input type="file" id="restoreFile" accept=".json,application/json" hidden>
+  </div>
+  <p class="notice">Bu panel tarayıcında çalışır. İndirdiğin müşteri sayfası admin panelini içermez. Yayını güncellemek için index.html dosyasını GitHub’a yükle.</p>
+  <div class="status" id="status" role="status" aria-live="polite"></div>
+</section>
+
+<section class="preview-wrap">
+  <div class="preview-title"><span>CANLI ÖNİZLEME</span><span>Mobil uyumlu</span></div>
+  <iframe id="preview" title="Müşteri sayfası önizlemesi" sandbox="allow-scripts allow-popups allow-popups-to-escape-sandbox allow-downloads"></iframe>
+</section>
 </main>
 
-<footer class="container">
-  EKİN · Dijital katalog taslağı. Ürün içerikleri üretici tarafından doğrulanmalıdır.
-</footer>
-
-<button class="edit-toggle" id="edit-toggle">✎ Tasarımı düzenle</button>
-
-<aside class="editor" id="editor" hidden aria-label="Tasarım editörü">
-  <div class="editor-heading">
-    <h2>Tasarım stüdyosu</h2>
-    <button class="small-btn" id="close-editor" aria-label="Editörü kapat">✕</button>
-  </div>
-
-  <p class="hint">Renkleri ve metinleri değiştirin. Widget ekleyerek sayfanızı oluşturun.</p>
-
-  <label>Ana başlık
-    <textarea id="title-input" aria-label="Ana başlık"></textarea>
-  </label>
-  <label>Açıklama
-    <textarea id="description-input" aria-label="Açıklama"></textarea>
-  </label>
-  <label>Ana renk
-    <input id="primary-input" type="color">
-  </label>
-  <label>Vurgu rengi
-    <input id="accent-input" type="color">
-  </label>
-  <label>Arka plan
-    <input id="background-input" type="color">
-  </label>
-  <label>Köşe yuvarlaklığı
-    <input id="radius-input" type="range" min="0" max="35">
-  </label>
-
-  <h3>Widget ekle</h3>
-  <div class="editor-buttons">
-    <button class="small-btn" data-add="heading">+ Başlık</button>
-    <button class="small-btn" data-add="text">+ Metin</button>
-    <button class="small-btn" data-add="image">+ Görsel</button>
-    <button class="small-btn" data-add="button">+ Buton</button>
-    <button class="small-btn" data-add="card">+ Kart</button>
-    <button class="small-btn" data-add="divider">+ Ayırıcı</button>
-  </div>
-
-  <div id="widget-editors"></div>
-
-  <h3>Tasarım dosyası</h3>
-  <div class="editor-buttons">
-    <button class="btn" id="save">Kaydet</button>
-    <button class="small-btn" id="download">Tasarımı indir</button>
-    <button class="small-btn" id="import">Dosyadan yükle</button>
-    <button class="small-btn" id="reset">Sıfırla</button>
-  </div>
-  <input id="import-file" type="file" accept=".json" hidden>
-  <p class="status" id="status" role="status"></p>
-  <p class="hint">
-    Kaydetme yalnızca bu tarayıcıda yapılır.
-    Diğer ziyaretçilerin gördüğü tasarımı değiştirmez.
-    Tasarımınızı dosya olarak yedekleyebilirsiniz.
-  </p>
-</aside>
-
-<dialog id="product-dialog">
-  <button class="small-btn close" id="close-dialog">Kapat ✕</button>
-  <h2 id="detail-title"></h2>
-  <p id="detail-description"></p>
-  <a class="btn" href="https://www.ekinendustriyel.com/"
-    target="_blank" rel="noopener noreferrer">Üreticiden bilgi alın →</a>
-</dialog>
-
 <script>
-const KEY = 'ekinqr-single-design-v1';
-const $ = id => document.getElementById(id);
-const escapeHTML = value => String(value ?? '').replace(/[&<>"']/g, char => ({
-  '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;'
-}[char]));
+(()=>{
+const $=id=>document.getElementById(id);
+const storageKey='ekin-link-admin-v1';
+const socialNames={whatsapp:'WhatsApp',instagram:'Instagram',youtube:'YouTube',facebook:'Facebook',x:'X',linkedin:'LinkedIn'};
 
-const names = {
-  heading:'Başlık', text:'Metin', image:'Görsel',
-  button:'Buton', card:'Bilgi kartı', divider:'Ayırıcı'
+const defaults={
+  company:'Ekin Endüstriyel',
+  description:'Yeni Nesil Mühendislik vizyonuyla Türkiye’nin ilk yerli plakalı ısı eşanjörünü üreten, küresel pazarda çözüm ortağı olan inovatif bir teknoloji markasıyız.',
+  logo:'',
+  colorTop:'#1d4894',
+  colorBottom:'#ed001c',
+  phone:'+90 216 232 2412',
+  email:'info@ekinendustriyel.com',
+  website:'https://www.ekinendustriyel.com/',
+  socials:{whatsapp:'',instagram:'',youtube:'',facebook:'',x:'',linkedin:''},
+  links:[
+    {title:'Kartvizit',subtitle:'Tek dokunuşla rehbere kaydet',url:'vcard'},
+    {title:'Ekin Endüstriyel | Sürdürülebilir Kalite, Güvenilir Mühendislik',subtitle:'Resmi web sitesi',url:'https://www.ekinendustriyel.com/'},
+    {title:'+90 216 232 2412',subtitle:'Aramak için dokun',url:'tel:+902162322412'},
+    {title:'444 35 46',subtitle:'Aramak için dokun',url:'tel:4443546'},
+    {title:'info@ekinendustriyel.com',subtitle:'Kurumsal e-posta',url:'mailto:info@ekinendustriyel.com'}
+  ]
 };
+let data=structuredClone(defaults);
+let timer;
 
-function initialDesign() {
-  return {
-    title:'Mühendislik gücü.\nTek bir noktada.',
-    description:'Isı transferinden akış sistemlerine, endüstriniz için doğru çözümü keşfedin.',
-    primary:'#12343b',
-    accent:'#d5ed91',
-    background:'#fafbf7',
-    radius:12,
-    widgets:[]
-  };
+function validUrl(value,social=false){
+  try{
+    const url=new URL(value);
+    return (social?['https:','http:']:['https:','http:','tel:','mailto:']).includes(url.protocol);
+  }catch{return false}
 }
-
-function safeURL(value, image = false) {
-  if (!value) return '';
-  if (image && /^data:image\/(png|jpeg|webp);base64,[a-z0-9+/=]+$/i.test(value)) {
-    return value;
+function validate(value){
+  if(!value||typeof value!=='object')throw Error('Geçersiz yedek dosyası.');
+  const result=structuredClone(defaults);
+  for(const key of ['company','description','phone','email','website']){
+    if(typeof value[key]!=='string')throw Error('Yedekte eksik bilgi var: '+key);
+    result[key]=value[key].slice(0,2000);
   }
-  try {
-    const url = new URL(value, location.href);
-    return ['https:', 'http:'].includes(url.protocol) ? url.href : '';
-  } catch {
-    return '';
+  for(const key of ['colorTop','colorBottom']){
+    if(!/^#[0-9a-f]{6}$/i.test(value[key]))throw Error('Renk bilgisi geçersiz.');
+    result[key]=value[key];
   }
-}
-
-function validate(raw) {
-  if (!raw || typeof raw.title !== 'string' ||
-      typeof raw.description !== 'string' ||
-      !Array.isArray(raw.widgets) || raw.widgets.length > 40) {
-    throw Error('Geçerli bir tasarım dosyası seçin.');
-  }
-
-  for (const key of ['primary','accent','background']) {
-    if (!/^#[a-f0-9]{6}$/i.test(raw[key])) throw Error('Renk biçimi geçersiz.');
-  }
-
-  if (!Number.isFinite(raw.radius) || raw.radius < 0 || raw.radius > 35) {
-    throw Error('Köşe ölçüsü geçersiz.');
-  }
-
-  if (raw.title.length > 1000 || raw.description.length > 6000) {
-    throw Error('Metin çok uzun.');
-  }
-
-  const ids = new Set();
-  const widgets = raw.widgets.map(widget => {
-    if (!names[widget.type] || typeof widget.id !== 'string' ||
-        !/^[a-z0-9-]+$/i.test(widget.id) || ids.has(widget.id)) {
-      throw Error('Widget bilgisi geçersiz.');
-    }
-    ids.add(widget.id);
-    const clean = { id:widget.id, type:widget.type };
-    for (const key of ['title','body','url','image']) {
-      clean[key] = typeof widget[key] === 'string' ? widget[key] : '';
-      if (clean[key].length > (key === 'image' ? 2800000 : 6000)) {
-        throw Error('Widget içeriği çok büyük.');
-      }
-    }
-    if (clean.url && !safeURL(clean.url)) throw Error('Bağlantı geçersiz.');
-    if (clean.image && !safeURL(clean.image, true)) throw Error('Görsel adresi geçersiz.');
-    return clean;
+  if(value.logo && !/^data:image\/(png|jpeg|webp);base64,[a-z0-9+/=\s]+$/i.test(value.logo))
+    throw Error('Logo biçimi geçersiz.');
+  result.logo=value.logo||'';
+  if(result.logo.length>3000000)throw Error('Logo çok büyük.');
+  if(!Array.isArray(value.links)||value.links.length>100)throw Error('Bağlantı listesi geçersiz.');
+  result.links=value.links.map(link=>{
+    if(!link||['title','subtitle','url'].some(key=>typeof link[key]!=='string'))
+      throw Error('Bağlantı bilgisi geçersiz.');
+    if(link.url!=='vcard'&&!validUrl(link.url))throw Error('Geçersiz bağlantı: '+link.url);
+    return {title:link.title.slice(0,200),subtitle:link.subtitle.slice(0,300),url:link.url.slice(0,2000)};
   });
-
-  return {
-    title:raw.title,
-    description:raw.description,
-    primary:raw.primary,
-    accent:raw.accent,
-    background:raw.background,
-    radius:raw.radius,
-    widgets
-  };
-}
-
-let design = initialDesign();
-try {
-  const saved = localStorage.getItem(KEY);
-  if (saved) design = validate(JSON.parse(saved));
-} catch {}
-
-const products = [
-  ['Plakalı Isı Eşanjörleri','Isı Transferi','Kompakt ve modüler ısı transferi çözümleri.'],
-  ['Lehimli Isı Eşanjörleri','Isı Transferi','Küçük alanlarda ısıtma ve soğutma uygulamaları.'],
-  ['Borulu Isı Eşanjörleri','Isı Transferi','Endüstriyel prosesler için eşanjör çözümleri.'],
-  ['Endüstriyel Pompalar','Akış Sistemleri','Akışkan transferi ve sirkülasyon çözümleri.'],
-  ['Boyler ve Akümülasyon Tankları','Depolama','Sıcak su hazırlama ve depolama uygulamaları.'],
-  ['Proses Sistemleri','Proses','İhtiyaca göre yapılandırılan bütünleşik sistemler.']
-];
-
-function equipment(index = 0) {
-  const colors = ['#285061','#647f82','#50757b','#294f5e','#849995','#526b75'];
-  return `<svg viewBox="0 0 260 270" role="img" aria-label="Endüstriyel ekipman çizimi">
-    <ellipse cx="135" cy="244" rx="85" ry="10" fill="#17312e15"/>
-    <path d="M89 58 172 35 193 47 111 70Z" fill="#d3dfdf"/>
-    ${Array.from({length:10},(_,i) =>
-      `<path d="M${101+i*5} ${70-i}v157l33-9V${59-i}"
-        fill="none" stroke="${i%2 ? '#b7c8cc' : '#7d969f'}" stroke-width="4"/>`
-    ).join('')}
-    <path d="m155 59 48-13v172l-48 13Z" fill="${colors[index % colors.length]}"/>
-    <path d="m69 84 57-16v171l-57 16Z" fill="${colors[index % colors.length]}"/>
-    <path d="m62 95 152-43M62 229l152-43" stroke="#b2c7cb" stroke-width="4"/>
-    ${[[88,111],[88,211],[184,76],[184,180]].map(([x,y]) =>
-      `<ellipse cx="${x}" cy="${y}" rx="11" ry="14" fill="#d9e3df"/>
-       <ellipse cx="${x}" cy="${y}" rx="6" ry="9" fill="#183c47"/>`
-    ).join('')}
-    <path d="M80 250v12m107-40v15" stroke="#294a54" stroke-width="9"/>
-    <rect x="89" y="153" width="27" height="19" rx="2" fill="#e9ede2"/>
-    <text x="92" y="166" fill="#264a52" font-size="9" font-family="Arial">EKİN</text>
-  </svg>`;
-}
-
-$('hero-art').innerHTML = equipment();
-
-let category = 'Tümü';
-
-function renderProducts() {
-  const query = $('search').value.toLocaleLowerCase('tr-TR')
-    .normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/ı/g,'i');
-
-  const filtered = products.map((product,index) => ({product,index})).filter(({product}) => {
-    const name = product[0].toLocaleLowerCase('tr-TR')
-      .normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/ı/g,'i');
-    return (category === 'Tümü' || product[1] === category) && name.includes(query);
-  });
-
-  $('products').innerHTML = filtered.length ? filtered.map(({product,index}) => `
-    <button class="product" data-product="${index}">
-      <div class="product-art">${equipment(index)}</div>
-      <div class="product-copy">
-        <span class="tag">${escapeHTML(product[1].toLocaleUpperCase('tr-TR'))}</span>
-        <h3>${escapeHTML(product[0])}</h3>
-        <p>${escapeHTML(product[2])}</p>
-        <span class="product-link">Ürün grubunu incele →</span>
-      </div>
-    </button>
-  `).join('') : '<p class="empty">Aradığınız ürün bulunamadı.</p>';
-
-  $('products').querySelectorAll('[data-product]').forEach(button => {
-    button.onclick = () => {
-      const product = products[Number(button.dataset.product)];
-      $('detail-title').textContent = product[0];
-      $('detail-description').textContent = product[2] +
-        ' Model, kapasite ve teknik özellikler için üreticiden bilgi alın.';
-      $('product-dialog').showModal();
-    };
-  });
-}
-
-function renderTabs() {
-  $('tabs').innerHTML = ['Tümü','Isı Transferi','Akış Sistemleri','Depolama','Proses']
-    .map(name => `<button class="tab ${name===category?'active':''}"
-      data-category="${escapeHTML(name)}">${escapeHTML(name)}</button>`).join('');
-
-  $('tabs').querySelectorAll('button').forEach(button => {
-    button.onclick = () => {
-      category = button.dataset.category;
-      renderTabs();
-      renderProducts();
-    };
-  });
-}
-
-function renderDesign() {
-  const root = document.documentElement.style;
-  for (const key of ['primary','accent','background']) {
-    root.setProperty('--'+key, design[key]);
+  for(const key in socialNames){
+    const url=value.socials?.[key]||'';
+    if(typeof url!=='string'||(url&&!validUrl(url,true)))throw Error('Sosyal medya adresi geçersiz.');
+    result.socials[key]=url;
   }
-  root.setProperty('--radius', design.radius+'px');
+  return result;
+}
+try{
+  const saved=localStorage.getItem(storageKey);
+  if(saved)data=validate(JSON.parse(saved));
+}catch{
+  $('status').textContent='Kayıtlı bilgiler yüklenemedi. Başlangıç taslağı açıldı.';
+}
 
-  $('hero-title').textContent = design.title;
-  $('hero-description').textContent = design.description;
+function esc(value){
+  return String(value).replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
+}
 
-  $('ozel').innerHTML = design.widgets.map(widget => {
-    let content = '';
-    if (widget.type === 'heading') content = `<h2>${escapeHTML(widget.title)}</h2>`;
-    if (widget.type === 'text') content = `<p>${escapeHTML(widget.body)}</p>`;
-    if (widget.type === 'image') content = widget.image
-      ? `<img src="${escapeHTML(safeURL(widget.image,true))}"
-          alt="${escapeHTML(widget.title)}">
-         <p>${escapeHTML(widget.body)}</p>`
-      : '<p>Görsel eklemek için tasarım editörünü kullanın.</p>';
-    if (widget.type === 'button') content =
-      `<a class="btn" href="${escapeHTML(safeURL(widget.url))}">
-        ${escapeHTML(widget.title)} →</a>`;
-    if (widget.type === 'card') content =
-      `<article class="widget-card"><h2>${escapeHTML(widget.title)}</h2>
-        <p>${escapeHTML(widget.body)}</p></article>`;
-    if (widget.type === 'divider') content = '<hr>';
-    return `<section class="widget"><div class="container">${content}</div></section>`;
+const paths={
+  download:'<path d="M12 3v12m-5-5 5 5 5-5M4 16v4h16v-4"/>',
+  web:'<circle cx="12" cy="12" r="9"/><ellipse cx="12" cy="12" rx="4" ry="9"/><path d="M3 12h18"/>',
+  phone:'<path d="M7 3H4a1 1 0 0 0-1 1c0 9.4 7.6 17 17 17a1 1 0 0 0 1-1v-3l-5-2-2 2a13 13 0 0 1-7-7l2-2Z"/>',
+  email:'<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/>',
+  instagram:'<rect x="4" y="4" width="16" height="16" rx="4"/><circle cx="12" cy="12" r="4"/><path d="M17 7h.01"/>',
+  youtube:'<rect x="3" y="6" width="18" height="12" rx="4"/><path d="m10 9 5 3-5 3Z"/>',
+  whatsapp:'<path d="M20 11.5a8.5 8.5 0 0 1-12.6 7.4L3 20l1.2-4.1A8.5 8.5 0 1 1 20 11.5Z"/><path d="M8 8c0 4 2 6 6 7l2-2-3-1-1 1-2-3 1-1Z"/>'
+};
+function icon(name){
+  if(name==='facebook')return '<b>f</b>';
+  if(name==='linkedin')return '<b>in</b>';
+  if(name==='x')return '𝕏';
+  return '<svg viewBox="0 0 24 24" aria-hidden="true">'+(paths[name]||paths.web)+'</svg>';
+}
+function vEscape(value){
+  return value.replace(/\\/g,'\\\\').replace(/\r?\n/g,'\\n').replace(/;/g,'\\;').replace(/,/g,'\\,');
+}
+function customerHTML(){
+  const cardData=[
+    'BEGIN:VCARD','VERSION:3.0',
+    'N:;'+vEscape(data.company)+';;;',
+    'FN:'+vEscape(data.company),'ORG:'+vEscape(data.company),
+    'TEL;TYPE=WORK,VOICE:'+vEscape(data.phone),
+    'EMAIL;TYPE=WORK:'+vEscape(data.email),
+    'URL:'+vEscape(data.website),'END:VCARD',''
+  ].join('\r\n');
+  const vcard='data:text/vcard;charset=utf-8,'+encodeURIComponent(cardData);
+  const social=Object.entries(data.socials)
+    .filter(([key,url])=>validUrl(url,true))
+    .map(([key,url])=>'<a href="'+esc(url)+'" target="_blank" rel="noopener noreferrer" aria-label="'+socialNames[key]+'">'+icon(key)+'</a>').join('');
+  const cards=data.links.map(link=>{
+    const isCard=link.url==='vcard';
+    if(!isCard&&!validUrl(link.url))return '';
+    const type=isCard?'download':link.url.startsWith('tel:')?'phone':link.url.startsWith('mailto:')?'email':'web';
+    return '<a class="card" href="'+esc(isCard?vcard:link.url)+'" '+(isCard?'download="kartvizit.vcf"':/^https?:/i.test(link.url)?'target="_blank" rel="noopener noreferrer"':'')+'><div><strong>'+esc(link.title)+'</strong><small>'+esc(link.subtitle)+'</small></div>'+icon(type)+'</a>';
   }).join('');
+  return `<!DOCTYPE html>
+<html lang="tr"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>${esc(data.company)} | İletişim</title>
+<meta name="description" content="${esc(data.description)}">
+<style>
+*{box-sizing:border-box}
+body{margin:0;padding:20px 14px;background:#f5f6f8;color:white;font-family:Arial,sans-serif;min-height:100vh;display:flex;justify-content:center;align-items:center}
+main{width:448px;max-width:100%;padding:23px;border-radius:25px;background:linear-gradient(170deg,${data.colorTop} 0%,${data.colorTop} 34%,${data.colorBottom} 100%);box-shadow:0 18px 55px #182b4820}
+.panel{padding:30px 32px;border:1px solid #ffffff42;border-radius:19px;background:linear-gradient(180deg,#112e5bc9,#19355b88 48%,#490b1666)}
+.logo{width:84px;height:84px;border-radius:50%;background:white;border:2px solid #d3d9e3;margin:0 auto 18px;display:grid;place-items:center;overflow:hidden;color:#234780;font-size:27px;font-weight:bold}
+.logo img{width:100%;height:100%;object-fit:contain;padding:7px}
+h1{text-align:center;font-size:29px;letter-spacing:-1px;margin:0 0 14px;overflow-wrap:anywhere}
+.bio{text-align:center;font-size:15px;line-height:1.75;margin:0;color:#f4f6ff;white-space:pre-line;overflow-wrap:anywhere}
+.socials{display:flex;justify-content:center;gap:9px;margin:24px 0 30px;flex-wrap:wrap}
+.socials a{display:grid;place-items:center;width:35px;height:35px;border-radius:50%;color:white;text-decoration:none;font-size:20px}
+.socials a:hover{background:#ffffff26}
+svg{width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
+.links{display:flex;flex-direction:column;gap:15px;${social?'':'margin-top:30px;'}}
+.card{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:17px 16px;min-height:74px;border:1px solid #ffffff42;border-radius:17px;background:#ffffff20;color:white;text-decoration:none;transition:background .2s,transform .2s}
+.card:hover{background:#ffffff32;transform:translateY(-2px)}
+a:focus-visible{outline:3px solid white;outline-offset:4px}
+.card strong{font-size:15px;line-height:1.2;display:block;overflow-wrap:anywhere}
+.card small{display:block;margin-top:6px;font-size:13px;line-height:1.3;color:#e2e5ed;overflow-wrap:anywhere}
+footer{font-size:11px;text-align:center;margin-top:33px;color:#f6e8ea}
+@media(max-width:420px){body{padding:10px}main{padding:16px}.panel{padding:28px 20px}h1{font-size:27px}.bio{font-size:14px}.card{padding:16px 14px}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style></head><body><main><div class="panel">
+<div class="logo">${data.logo?'<img src="'+esc(data.logo)+'" alt="'+esc(data.company)+' logosu">':esc(data.company.slice(0,1).toLocaleUpperCase('tr'))}</div>
+<h1>${esc(data.company)}</h1><p class="bio">${esc(data.description)}</p>
+${social?'<nav class="socials" aria-label="Sosyal medya">'+social+'</nav>':''}
+<section class="links" aria-label="Kurumsal bağlantılar">${cards}</section>
+<footer>© ${new Date().getFullYear()} ${esc(data.company)}</footer>
+</div></main></body></html>`;
 }
 
-function message(text) {
-  $('status').textContent = text;
-}
-
-function syncControls() {
-  for (const key of ['title','description','primary','accent','background','radius']) {
-    $(key+'-input').value = design[key];
-  }
-}
-
-function renderWidgetEditors() {
-  $('widget-editors').innerHTML = design.widgets.map((widget,index) => `
-    <details class="widget-editor" open>
-      <summary>${index+1}. ${names[widget.type]}</summary>
-      ${['heading','image','button','card'].includes(widget.type) ? `
-        <label>Başlık / buton metni
-          <input data-id="${widget.id}" data-field="title"
-            value="${escapeHTML(widget.title)}">
-        </label>` : ''}
-      ${['text','image','card'].includes(widget.type) ? `
-        <label>Metin
-          <textarea aria-label="Widget metni" data-id="${widget.id}"
-            data-field="body">${escapeHTML(widget.body)}</textarea>
-        </label>` : ''}
-      ${widget.type==='button' ? `
-        <label>Bağlantı adresi
-          <input data-id="${widget.id}" data-field="url"
-            value="${escapeHTML(widget.url)}" placeholder="https://…">
-        </label>` : ''}
-      ${widget.type==='image' ? `
-        <label>Görsel yükle
-          <input type="file" accept="image/png,image/jpeg,image/webp"
-            data-upload="${widget.id}">
-        </label>
-        <label>Veya görsel adresi
-          <input data-id="${widget.id}" data-field="image"
-            value="${escapeHTML(widget.image.startsWith('data:')?'':widget.image)}"
-            placeholder="https://…">
-        </label>` : ''}
-      <div class="editor-buttons">
-        <button class="small-btn" data-move="${widget.id}" data-direction="-1"
-          ${index===0?'disabled':''}>↑ Yukarı</button>
-        <button class="small-btn" data-move="${widget.id}" data-direction="1"
-          ${index===design.widgets.length-1?'disabled':''}>↓ Aşağı</button>
-        <button class="small-btn" data-delete="${widget.id}">Sil</button>
-      </div>
-    </details>
-  `).join('');
-
-  $('widget-editors').querySelectorAll('[data-field]').forEach(input => {
-    input.oninput = () => {
-      const widget = design.widgets.find(item => item.id === input.dataset.id);
-      const field = input.dataset.field;
-      if (['url','image'].includes(field) && input.value &&
-          !safeURL(input.value,field==='image')) {
-        message('Geçerli bir bağlantı adresi yazın.');
-        return;
-      }
-      widget[field] = input.value;
-      renderDesign();
-      message('Değişiklikleri saklamak için Kaydet’e basın.');
-    };
-  });
-
-  $('widget-editors').querySelectorAll('[data-delete]').forEach(button => {
-    button.onclick = () => {
-      design.widgets = design.widgets.filter(widget => widget.id !== button.dataset.delete);
-      renderDesign();
-      renderWidgetEditors();
-    };
-  });
-
-  $('widget-editors').querySelectorAll('[data-move]').forEach(button => {
-    button.onclick = () => {
-      const index = design.widgets.findIndex(widget => widget.id === button.dataset.move);
-      const next = index + Number(button.dataset.direction);
-      if (next < 0 || next >= design.widgets.length) return;
-      [design.widgets[index],design.widgets[next]] =
-        [design.widgets[next],design.widgets[index]];
-      renderDesign();
-      renderWidgetEditors();
-    };
-  });
-
-  $('widget-editors').querySelectorAll('[data-upload]').forEach(input => {
-    input.onchange = () => {
-      const file = input.files[0];
-      if (!file) return;
-      if (!['image/png','image/jpeg','image/webp'].includes(file.type) ||
-          file.size > 2*1024*1024) {
-        message('En fazla 2 MB boyutunda PNG, JPG veya WebP seçin.');
-        return;
-      }
-      const reader = new FileReader();
-      reader.onload = () => {
-        const widget = design.widgets.find(item => item.id === input.dataset.upload);
-        if (!widget || !safeURL(reader.result,true)) return;
-        widget.image = reader.result;
-        renderDesign();
-        message('Görsel eklendi. Kaydetmeyi unutmayın.');
-      };
-      reader.onerror = () => message('Görsel okunamadı.');
-      reader.readAsDataURL(file);
-    };
-  });
-}
-
-function setEditor(open) {
-  $('editor').hidden = !open;
-  document.body.classList.toggle('editing',open);
-  $('edit-toggle').hidden = open;
-}
-
-$('edit-toggle').onclick = () => setEditor(true);
-$('close-editor').onclick = () => setEditor(false);
-$('close-dialog').onclick = () => $('product-dialog').close();
-$('search').oninput = renderProducts;
-
-for (const key of ['title','description','primary','accent','background','radius']) {
-  $(key+'-input').oninput = event => {
-    design[key] = key==='radius' ? Number(event.target.value) : event.target.value;
-    renderDesign();
-    message('Değişiklikleri saklamak için Kaydet’e basın.');
-  };
-}
-
-document.querySelectorAll('[data-add]').forEach(button => {
-  button.onclick = () => {
-    if (design.widgets.length >= 40) {
-      message('En fazla 40 widget eklenebilir.');
-      return;
+function update(){
+  clearTimeout(timer);
+  timer=setTimeout(()=>{
+    $('preview').srcdoc=customerHTML();
+    try{
+      localStorage.setItem(storageKey,JSON.stringify(data));
+      $('status').textContent='Değişiklikler bu tarayıcıda kaydedildi.';
+    }catch{
+      $('status').textContent='Tarayıcıya kaydedilemedi. Kaybetmemek için yedek indir.';
     }
-    design.widgets.push({
-      id:'w-'+Date.now()+'-'+Math.random().toString(36).slice(2,8),
-      type:button.dataset.add,
-      title:button.dataset.add==='button'?'Daha fazla bilgi':'Yeni başlığınız',
-      body:'İçeriğinizi buraya yazın.',
-      url:'https://www.ekinendustriyel.com/',
-      image:''
+  },250);
+}
+function field(label,value,onInput,placeholder=''){
+  const wrap=document.createElement('div');
+  const labelEl=document.createElement('label');
+  const input=document.createElement('input');
+  input.id='field-'+(++field.counter);
+  labelEl.htmlFor=input.id;
+  labelEl.textContent=label;
+  input.value=value;
+  input.placeholder=placeholder;
+  input.maxLength=2000;
+  input.oninput=()=>onInput(input.value,input);
+  wrap.append(labelEl,input);
+  return wrap;
+}
+field.counter=0;
+
+function renderLinks(){
+  $('linkFields').replaceChildren();
+  data.links.forEach((link,index)=>{
+    const group=document.createElement('div');group.className='group';
+    const head=document.createElement('div');head.className='group-head';
+    const title=document.createElement('strong');title.textContent=(index+1)+'. '+(link.title||'Yeni bağlantı');
+    const buttons=document.createElement('div');buttons.className='buttons';
+    function button(text,label,handler,disabled=false){
+      const btn=document.createElement('button');
+      btn.type='button';btn.className='mini';btn.textContent=text;
+      btn.setAttribute('aria-label',label);btn.title=label;
+      btn.disabled=disabled;btn.onclick=handler;buttons.append(btn);
+    }
+    button('↑','Yukarı taşı',()=>{
+      [data.links[index-1],data.links[index]]=[data.links[index],data.links[index-1]];
+      renderLinks();update();
+    },index===0);
+    button('↓','Aşağı taşı',()=>{
+      [data.links[index+1],data.links[index]]=[data.links[index],data.links[index+1]];
+      renderLinks();update();
+    },index===data.links.length-1);
+    button('Sil','Bağlantıyı sil',()=>{
+      if(confirm('Bu bağlantı silinsin mi?')){
+        data.links.splice(index,1);renderLinks();update();
+      }
     });
-    renderDesign();
-    renderWidgetEditors();
-    message('Widget eklendi. Sayfanın ürünler altındaki bölümünde görünür.');
+    head.append(title,buttons);group.append(head);
+    group.append(
+      field('Başlık',link.title,value=>{
+        link.title=value;title.textContent=(index+1)+'. '+(value||'Yeni bağlantı');update();
+      }),
+      field('Alt açıklama',link.subtitle,value=>{link.subtitle=value;update()}),
+      field('Adres',link.url,(value,input)=>{
+        link.url=value.trim();
+        input.setCustomValidity(link.url==='vcard'||validUrl(link.url)?'':'https://, tel: veya mailto: ile başlayan bir adres yaz.');
+        update();
+      },'https://… veya kartvizit için vcard')
+    );
+    $('linkFields').append(group);
+  });
+}
+function populate(){
+  for(const key of ['company','description','phone','email','website','colorTop','colorBottom']){
+    $(key).value=data[key];
+    $(key).oninput=()=>{data[key]=$(key).value;update()};
+  }
+  $('socialFields').replaceChildren();
+  for(const key in socialNames){
+    $('socialFields').append(field(socialNames[key],data.socials[key],(value,input)=>{
+      data.socials[key]=value.trim();
+      input.setCustomValidity(!value||validUrl(value.trim(),true)?'':'Geçerli bir https:// adresi yaz.');
+      update();
+    },key==='whatsapp'?'https://wa.me/90…':'https://…'));
+  }
+  renderLinks();
+  $('preview').srcdoc=customerHTML();
+}
+$('addLink').onclick=()=>{
+  data.links.push({title:'Yeni bağlantı',subtitle:'Kısa açıklama',url:'https://'});
+  renderLinks();update();
+  $('linkFields').lastElementChild.scrollIntoView({block:'center',behavior:'smooth'});
+};
+$('logoFile').onchange=async event=>{
+  const file=event.target.files[0];if(!file)return;
+  if(!['image/png','image/jpeg','image/webp'].includes(file.type)||file.size>2*1024*1024){
+    $('status').textContent='PNG, JPG veya WebP biçiminde, 2 MB altında bir logo seç.';
+    event.target.value='';return;
+  }
+  const reader=new FileReader();
+  reader.onload=()=>{
+    const img=new Image();
+    img.onload=()=>{data.logo=reader.result;update()};
+    img.onerror=()=>$('status').textContent='Logo dosyası okunamadı.';
+    img.src=reader.result;
   };
-});
+  reader.onerror=()=>$('status').textContent='Logo dosyası okunamadı.';
+  reader.readAsDataURL(file);
+};
+$('removeLogo').onclick=()=>{data.logo='';$('logoFile').value='';update()};
 
-$('save').onclick = () => {
-  try {
-    localStorage.setItem(KEY,JSON.stringify(validate(design)));
-    message('Tasarım bu tarayıcıya kaydedildi.');
-  } catch {
-    message('Kaydedilemedi. Görselleri küçültün veya tasarımı dosya olarak indirin.');
+function saveFile(content,name,type){
+  const url=URL.createObjectURL(new Blob([content],{type}));
+  const a=document.createElement('a');a.href=url;a.download=name;
+  document.body.append(a);a.click();a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url),3000);
+}
+function check(){
+  try{
+    validate(data);
+    const invalid=Array.from(document.querySelectorAll('.settings input')).find(input=>!input.checkValidity());
+    if(invalid){invalid.reportValidity();return false}
+    return true;
+  }catch(error){
+    $('status').textContent=error.message;return false;
   }
+}
+$('download').onclick=()=>{
+  if(!check())return;
+  saveFile(customerHTML(),'index.html','text/html;charset=utf-8');
+  $('status').textContent='Müşteri sayfası indirildi. GitHub’daki index.html dosyasını bununla güncelle.';
 };
-
-$('download').onclick = () => {
-  try {
-    const url = URL.createObjectURL(new Blob(
-      [JSON.stringify(validate(design),null,2)],
-      {type:'application/json'}
-    ));
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = 'ekinqr-tasarim.json';
-    link.click();
-    setTimeout(() => URL.revokeObjectURL(url),1000);
-  } catch(error) {
-    message(error.message);
-  }
+$('backup').onclick=()=>{
+  if(!check())return;
+  saveFile(JSON.stringify(data,null,2),'ekin-sayfa-yedegi.json','application/json');
 };
-
-$('import').onclick = () => $('import-file').click();
-$('import-file').onchange = async event => {
-  const file = event.target.files[0];
-  if (!file) return;
-  try {
-    if (file.size > 8*1024*1024) throw Error('Dosya en fazla 8 MB olabilir.');
-    const next = validate(JSON.parse(await file.text()));
-    design = next;
-    syncControls();
-    renderDesign();
-    renderWidgetEditors();
-    message('Tasarım yüklendi. Saklamak için Kaydet’e basın.');
-  } catch(error) {
-    message(error instanceof SyntaxError ? 'Geçerli bir JSON dosyası seçin.' : error.message);
-  }
-  event.target.value = '';
+$('restore').onclick=()=>$('restoreFile').click();
+$('restoreFile').onchange=async event=>{
+  const file=event.target.files[0];if(!file)return;
+  try{
+    if(file.size>4*1024*1024)throw Error('Yedek dosyası çok büyük.');
+    const imported=validate(JSON.parse(await file.text()));
+    if(!confirm('Paneldeki bilgiler bu yedekle değiştirilsin mi?'))return;
+    data=imported;populate();update();
+  }catch(error){$('status').textContent='Yedek yüklenemedi: '+error.message}
+  finally{event.target.value=''}
 };
-
-$('reset').onclick = () => {
-  if (!confirm('Başlangıç tasarımına dönülsün mü?')) return;
-  design = initialDesign();
-  syncControls();
-  renderDesign();
-  renderWidgetEditors();
-  message('Başlangıç tasarımı yüklendi. Kalıcılaştırmak için Kaydet’e basın.');
-};
-
-syncControls();
-renderDesign();
-renderWidgetEditors();
-renderTabs();
-renderProducts();
-
-if (new URLSearchParams(location.search).has('editor')) setEditor(true);
+function setView(customer){
+  document.body.classList.toggle('customer',customer);
+  $('adminTab').classList.toggle('active',!customer);
+  $('customerTab').classList.toggle('active',customer);
+  $('adminTab').setAttribute('aria-pressed',String(!customer));
+  $('customerTab').setAttribute('aria-pressed',String(customer));
+}
+$('adminTab').onclick=()=>setView(false);
+$('customerTab').onclick=()=>setView(true);
+populate();
+})();
 </script>
 </body>
 </html>
