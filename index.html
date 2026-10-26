@@ -7,7 +7,7 @@
 <style>
 *{box-sizing:border-box}
 body{margin:0;background:#f0f3f8;color:#19304e;font:14px/1.5 system-ui,Arial,sans-serif}
-button,input,textarea,select{font:inherit}
+button,input,textarea{font:inherit}
 button{cursor:pointer}
 header{background:white;padding:17px 25px;border-bottom:1px solid #e0e5ee;display:flex;justify-content:space-between;align-items:center;gap:15px;flex-wrap:wrap}
 header strong{font-size:19px}
@@ -19,16 +19,15 @@ header small{color:#8190a5;font-weight:400}
 .editor{background:white;border:1px solid #e0e6ef;border-radius:16px;padding:25px}
 h2{font-size:22px;margin:0 0 6px}
 h3{font-size:15px;margin:25px 0 10px}
-h4{font-size:13px;color:#526d93;margin:18px 0 5px}
 .muted{font-size:12px;color:#7a899e}
 label{display:block;font-size:12px;font-weight:650;margin:12px 0 5px}
-input:not([type=color]),textarea,select{width:100%;border:1px solid #d7dfeb;border-radius:8px;padding:10px 12px;color:#19304e;background:white}
+input:not([type=color]),textarea{width:100%;border:1px solid #d7dfeb;border-radius:8px;padding:10px 12px;color:#19304e;background:white}
 textarea{min-height:100px;resize:vertical}
-input:focus,textarea:focus,select:focus{outline:2px solid #9cbaed;outline-offset:1px}
+input:focus,textarea:focus{outline:2px solid #9cbaed;outline-offset:1px}
 .btn{border:1px solid #d7dfeb;border-radius:8px;padding:9px 13px;background:white;color:#204b90}
 .primary{background:#2458aa;border-color:#2458aa;color:white}
 .colors,.actions{display:flex;gap:12px;flex-wrap:wrap}
-.colors input,input[type=color]{width:65px;height:35px;padding:2px;border:1px solid #d7dfeb;border-radius:7px;background:white}
+.colors input{width:65px;height:35px;padding:2px;border:1px solid #d7dfeb;border-radius:7px;background:white}
 .link-edit{border:1px solid #e0e6ef;border-radius:12px;background:#fafbfd;padding:13px;margin:12px 0}
 .link-head{display:flex;justify-content:space-between;gap:8px;align-items:center}
 .link-head strong{font-size:12px;overflow-wrap:anywhere}
@@ -53,6 +52,8 @@ body.view .preview{position:static}
 #qrResult{margin-top:16px;background:white;border:1px solid #e0e6ef;border-radius:11px;padding:15px;text-align:center}
 #qrCanvas{width:240px;max-width:100%;height:auto;image-rendering:pixelated}
 #qrResult .actions{justify-content:center}
+h4{font-size:13px;color:#526d93;margin:18px 0 5px}
+select{font:inherit;width:100%;padding:10px 12px;border:1px solid #d7dfeb;border-radius:8px;color:#19304e;background:white}
 .mini-badge{width:32px;height:32px;border-radius:7px;background:#2458aa;color:white;display:grid;place-items:center;flex-shrink:0}
 .mini-badge svg{width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
 #miniFields .link-head strong{flex:1}
@@ -82,20 +83,24 @@ header{padding:15px}
 
   <section class="share-box" aria-labelledby="shareTitle">
     <h3 id="shareTitle">Müşteriye paylaş</h3>
-    <p class="muted">Yayınlanan müşteri sayfasının adresini buraya yapıştır. Link ve QR kod aynı sayfayı açar.</p>
+    <p class="muted">
+      Müşteri bağlantısı sabittir. Linki kopyaladığında veya QR kodu
+      okuttuğunda Ekin Endüstriyel’in QR sayfası açılır.
+    </p>
 
     <label for="publicUrl">Müşteriye göndereceğin tek link</label>
-    <input id="publicUrl" type="text" inputmode="url" autocomplete="url"
-      spellcheck="false" placeholder="https://kullanici.github.io/depo/">
+    <input id="publicUrl" type="text" inputmode="url" readonly
+      value="https://www.ekinendustriyel.com/qr/">
 
     <div class="actions share-actions">
       <button class="btn primary" id="copyPublicUrl" type="button">Linki kopyala</button>
       <button class="btn" id="createQr" type="button">QR kod oluştur</button>
-      <a class="btn" id="openPublicUrl" target="_blank" rel="noopener noreferrer" hidden>Sayfayı aç ↗</a>
+      <a class="btn" id="openPublicUrl" target="_blank"
+        rel="noopener noreferrer" hidden>Sayfayı aç ↗</a>
     </div>
 
     <p class="share-message" id="shareStatus" role="status" aria-live="polite">
-      Önce yayınlanan müşteri sayfasının adresini gir.
+      Linki kopyalayabilir veya QR kod oluşturabilirsin.
     </p>
 
     <div id="qrResult" hidden>
@@ -108,9 +113,8 @@ header{padding:15px}
     </div>
 
     <p class="muted">
-      Bu alan yayın yapmaz. GitHub → Settings → Pages bölümündeki müşteri sayfası
-      adresini kullan. Admin panelinin adresini paylaşma. Sayfa adresi değişmezse
-      QR kodunu yeniden basman gerekmez.
+      Müşteri adresi: https://www.ekinendustriyel.com/qr/ · Sayfa adresi
+      değişmediği sürece içerikleri güncellediğinde mevcut QR kod kullanılmaya devam eder.
     </p>
   </section>
 
@@ -127,7 +131,9 @@ header{padding:15px}
   <button class="btn" id="clearLogo">Logoyu kaldır</button>
 
   <h3>Kapak fotoğrafı</h3>
-  <p class="muted">Sayfanın üstünde görünür; logo fotoğrafın alt kenarına taşar.</p>
+  <p class="muted">
+    Sayfanın üstünde görünür; logo fotoğrafın alt kenarına taşar.
+  </p>
 
   <label for="coverFile">Fotoğraf yükle</label>
   <input id="coverFile" type="file" accept="image/png,image/jpeg,image/webp">
@@ -174,7 +180,10 @@ header{padding:15px}
 
   <label for="pageColor">Sayfanın dışındaki alanın rengi</label>
   <input id="pageColor" type="color">
-  <p class="muted">Renkler önizlemeye ve indirdiğin müşteri sayfasına uygulanır.</p>
+
+  <p class="muted">
+    Renk değişiklikleri önizlemeye ve indirdiğin müşteri sayfasına uygulanır.
+  </p>
 
   <h3>Yazı ve ikon renkleri</h3>
   <div class="colors">
@@ -187,19 +196,24 @@ header{padding:15px}
       <input id="iconColor" type="color">
     </div>
   </div>
+
   <p class="muted">
     Yazı rengi başlık, açıklamalar ve kart metinlerine; ikon rengi küçük kutulara
     ve kart simgelerine uygulanır. Yüklenen logo görselinin rengi değişmez.
   </p>
+
   <button class="btn" id="autoColors" type="button">Renkleri otomatik seç</button>
   <p class="muted" id="paletteStatus" role="status"></p>
 
   <h3>Kartvizit bilgileri</h3>
   <p class="muted">Rehbere kaydedilecek bilgiler.</p>
+
   <label for="phone">Telefon</label>
   <input id="phone" type="tel">
+
   <label for="email">E-posta</label>
   <input id="email" type="email">
+
   <label for="website">Web sitesi</label>
   <input id="website" type="url">
 
@@ -208,6 +222,7 @@ header{padding:15px}
     Her küçük kutuya ayrı bağlantı ekleyebilirsin.
     Boş bırakılan kutular müşteriye gösterilmez.
   </p>
+
   <h4>Sosyal medya kutuları</h4>
   <div id="socialFields"></div>
 
@@ -231,14 +246,17 @@ header{padding:15px}
 
   <p class="info">
     Bilgiler bu tarayıcıda saklanır. İndirilen müşteri sayfasında admin paneli
-    bulunmaz. Yayını güncellemek için indirdiğin index.html dosyasını GitHub’a yükle.
+    bulunmaz. Yayını güncellemek için indirdiğin müşteri sayfasını web sitendeki
+    /qr/ adresini sunan dosyayla değiştir.
   </p>
+
   <p class="status" id="status" role="status" aria-live="polite"></p>
 </section>
 
 <section class="preview">
   <div class="preview-label">
-    <span>CANLI ÖNİZLEME</span><span>MÜŞTERİ EKRANI</span>
+    <span>CANLI ÖNİZLEME</span>
+    <span>MÜŞTERİ EKRANI</span>
   </div>
   <iframe id="frame" title="Müşteri sayfası"
     sandbox="allow-scripts allow-popups allow-popups-to-escape-sandbox allow-downloads">
@@ -246,7 +264,67 @@ header{padding:15px}
 </section>
 </main>
 
-<script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js"></script>
+<script>
+// QR matrisi yalnızca https://www.ekinendustriyel.com/qr/ adresi içindir.
+// Dış kütüphane veya internet bağlantısı gerektirmez.
+function qrcode(){
+  const target = 'https://www.ekinendustriyel.com/qr/';
+  const rows = [
+    "11111110111111110100001111111",
+    "10000010110001110111101000001",
+    "10111010110111100011101011101",
+    "10111010001100111100001011101",
+    "10111010111101010011001011101",
+    "10000010001111100110101000001",
+    "11111110101010101010101111111",
+    "00000000010110111000100000000",
+    "10011111110101101101110010111",
+    "11101101010010111101000110110",
+    "01000110101110110110000100100",
+    "01001001110110111100111001001",
+    "01101010101001110001001100001",
+    "01100100000110011010001011111",
+    "10110011101010110001010100101",
+    "11100001100111101000010110101",
+    "01000110111010011000100001000",
+    "11010100110000010011100010110",
+    "11010111010001110101110001001",
+    "11110101010001011010010111100",
+    "11000010101101001110111111110",
+    "00000000110101011110100011000",
+    "11111110100111011001101011000",
+    "10000010101101000111100010010",
+    "10111010101111001001111111011",
+    "10111010111001111010110100001",
+    "10111010010110010110010110111",
+    "10000010000100110000010101101",
+    "11111110100000100001111011000"
+  ];
+
+  let value = '';
+
+  return {
+    addData(url){
+      if(url !== target){
+        throw Error('Bu QR kod yalnızca ' + target + ' adresi içindir.');
+      }
+      value = url;
+    },
+    make(){
+      if(value !== target){
+        throw Error('Müşteri adresi tanımlanmadı.');
+      }
+    },
+    getModuleCount(){
+      return rows.length;
+    },
+    isDark(row,col){
+      return rows[row][col] === '1';
+    }
+  };
+}
+</script>
+
 <script>
 (()=>{
 const $ = id => document.getElementById(id);
@@ -260,13 +338,15 @@ const names = {
   linkedin:'LinkedIn'
 };
 
+const CUSTOMER_URL = 'https://www.ekinendustriyel.com/qr/';
+
 const defaults = {
   miniLinks:[
     {title:'E-posta',icon:'email',url:''},
     {title:'Telefon',icon:'phone',url:''},
     {title:'Konum',icon:'location',url:''}
   ],
-  publicUrl:'',
+  publicUrl:CUSTOMER_URL,
   company:'Ekin Endüstriyel',
   description:'Yeni Nesil Mühendislik vizyonuyla Türkiye’nin ilk yerli plakalı ısı eşanjörünü üreten, küresel pazarda çözüm ortağı olan inovatif bir teknoloji markasıyız.',
   cover:'',
@@ -325,7 +405,7 @@ const key = 'ekin-canvas-admin-v2';
 let data = structuredClone(defaults);
 let timer, counter = 0;
 
-const escape = value => String(value).replace(/[&<>"']/g, c => ({
+const escape = value => String(value).replace(/[&<>"']/g,c => ({
   '&':'&amp;',
   '<':'&lt;',
   '>':'&gt;',
@@ -338,6 +418,7 @@ function safe(url,social=false){
     const allowed = social
       ? ['https:','http:']
       : ['https:','http:','tel:','mailto:'];
+
     return allowed.includes(new URL(url).protocol);
   }catch{
     return false;
@@ -358,10 +439,10 @@ function checked(d){
     r.customColors = d.customColors;
   }
 
-  for(const k of ['textColor','iconColor','solidColor','pageColor']){
+  for(const k of ['textColor','iconColor']){
     if(d[k] !== undefined){
       if(!/^#[0-9a-f]{6}$/i.test(d[k])){
-        throw Error('Renk bilgisi geçersiz.');
+        throw Error('Yazı veya ikon rengi geçersiz.');
       }
       r[k] = d[k];
     }
@@ -374,11 +455,16 @@ function checked(d){
     r.backgroundMode = d.backgroundMode;
   }
 
-  if(d.publicUrl !== undefined &&
-    (typeof d.publicUrl !== 'string' || d.publicUrl.length > 2000)){
-    throw Error('Paylaşım adresi geçersiz.');
+  for(const k of ['solidColor','pageColor']){
+    if(d[k] !== undefined){
+      if(!/^#[0-9a-f]{6}$/i.test(d[k])){
+        throw Error('Arka plan rengi geçersiz.');
+      }
+      r[k] = d[k];
+    }
   }
-  r.publicUrl = d.publicUrl || '';
+
+  r.publicUrl = CUSTOMER_URL;
 
   for(const k of ['company','description','phone','email','website']){
     if(typeof d[k] !== 'string'){
@@ -404,6 +490,7 @@ function checked(d){
         ? 'Geçersiz logo.'
         : 'Kapak fotoğrafı geçersiz.');
     }
+
     r[k] = d[k] || '';
   }
 
@@ -439,9 +526,11 @@ function checked(d){
 
   for(const k in names){
     const value = d.socials?.[k] || '';
+
     if(typeof value !== 'string' || (value && !safe(value,true))){
       throw Error('Geçersiz sosyal medya adresi.');
     }
+
     r.socials[k] = value;
   }
 
@@ -510,12 +599,14 @@ function automaticColor(){
   if(data.backgroundMode !== 'solid') return '#ffffff';
 
   const rgb = data.solidColor.slice(1).match(/../g)
-    .map(v => parseInt(v,16) / 255)
-    .map(v => v <= 0.04045 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4);
+    .map(v => parseInt(v,16)/255)
+    .map(v => v <= 0.04045
+      ? v/12.92
+      : ((v+0.055)/1.055)**2.4);
 
-  return rgb[0]*0.2126 + rgb[1]*0.7152 + rgb[2]*0.0722 > 0.179
-    ? '#19304e'
-    : '#ffffff';
+  const luminance = rgb[0]*0.2126 + rgb[1]*0.7152 + rgb[2]*0.0722;
+
+  return luminance > 0.179 ? '#19304e' : '#ffffff';
 }
 
 function syncPalette(){
@@ -562,7 +653,8 @@ function html(){
     ''
   ].join('\r\n');
 
-  const cardUrl = 'data:text/vcard;charset=utf-8,' + encodeURIComponent(contact);
+  const cardUrl = 'data:text/vcard;charset=utf-8,' +
+    encodeURIComponent(contact);
 
   const mini = data.miniLinks
     .filter(l => safe(l.url))
@@ -679,6 +771,7 @@ ${socials
 
 function update(){
   clearTimeout(timer);
+
   timer = setTimeout(() => {
     $('frame').srcdoc = html();
 
@@ -712,7 +805,7 @@ function field(label,value,change,placeholder=''){
 function renderLinks(){
   $('linkFields').replaceChildren();
 
-  data.links.forEach((l,i) => {
+  data.links.forEach((link,index) => {
     const box = document.createElement('div');
     box.className = 'link-edit';
 
@@ -720,37 +813,39 @@ function renderLinks(){
     head.className = 'link-head';
 
     const title = document.createElement('strong');
-    title.textContent = (i+1) + '. ' + l.title;
+    title.textContent = (index+1) + '. ' + link.title;
 
     const controls = document.createElement('div');
     controls.className = 'controls';
 
-    function btn(text,label,fn,disabled=false){
-      const b = document.createElement('button');
-      b.type = 'button';
-      b.textContent = text;
-      b.title = label;
-      b.setAttribute('aria-label',label);
-      b.disabled = disabled;
-      b.onclick = fn;
-      controls.append(b);
+    function control(text,label,action,disabled=false){
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.textContent = text;
+      button.title = label;
+      button.setAttribute('aria-label',label);
+      button.disabled = disabled;
+      button.onclick = action;
+      controls.append(button);
     }
 
-    btn('↑','Yukarı taşı',() => {
-      [data.links[i-1],data.links[i]] = [data.links[i],data.links[i-1]];
+    control('↑','Yukarı taşı',() => {
+      [data.links[index-1],data.links[index]] =
+        [data.links[index],data.links[index-1]];
       renderLinks();
       update();
-    },i === 0);
+    },index === 0);
 
-    btn('↓','Aşağı taşı',() => {
-      [data.links[i+1],data.links[i]] = [data.links[i],data.links[i+1]];
+    control('↓','Aşağı taşı',() => {
+      [data.links[index+1],data.links[index]] =
+        [data.links[index],data.links[index+1]];
       renderLinks();
       update();
-    },i === data.links.length-1);
+    },index === data.links.length-1);
 
-    btn('Sil','Bağlantıyı sil',() => {
+    control('Sil','Bağlantıyı sil',() => {
       if(confirm('Bu bağlantı silinsin mi?')){
-        data.links.splice(i,1);
+        data.links.splice(index,1);
         renderLinks();
         update();
       }
@@ -760,22 +855,24 @@ function renderLinks(){
 
     box.append(
       head,
-      field('Başlık',l.title,value => {
-        l.title = value;
-        title.textContent = (i+1) + '. ' + value;
+      field('Başlık',link.title,value => {
+        link.title = value;
+        title.textContent = (index+1) + '. ' + value;
         update();
       }),
-      field('Alt açıklama',l.subtitle,value => {
-        l.subtitle = value;
+      field('Alt açıklama',link.subtitle,value => {
+        link.subtitle = value;
         update();
       }),
-      field('Bağlantı adresi',l.url,(value,input) => {
-        l.url = value.trim();
+      field('Bağlantı adresi',link.url,(value,input) => {
+        link.url = value.trim();
+
         input.setCustomValidity(
-          l.url === 'vcard' || safe(l.url)
+          link.url === 'vcard' || safe(link.url)
             ? ''
             : 'Geçerli bir https://, tel: veya mailto: adresi yaz.'
         );
+
         update();
       },'https://… / tel:… / mailto:… / vcard')
     );
@@ -818,14 +915,14 @@ function renderMini(){
     controls.className = 'controls';
 
     function control(text,label,action,disabled=false){
-      const b = document.createElement('button');
-      b.type = 'button';
-      b.textContent = text;
-      b.title = label;
-      b.setAttribute('aria-label',label);
-      b.disabled = disabled;
-      b.onclick = action;
-      controls.append(b);
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.textContent = text;
+      button.title = label;
+      button.setAttribute('aria-label',label);
+      button.disabled = disabled;
+      button.onclick = action;
+      controls.append(button);
     }
 
     control('↑','Kutuyu yukarı taşı',() => {
@@ -889,11 +986,13 @@ function renderMini(){
       select,
       field('Kutunun açacağı bağlantı',link.url,(value,input) => {
         link.url = value.trim();
+
         input.setCustomValidity(
           !link.url || safe(link.url)
             ? ''
             : 'https://, tel: veya mailto: ile başlayan bir adres yaz.'
         );
+
         update();
       },'https://… / tel:… / mailto:…'),
       note
@@ -912,6 +1011,7 @@ $('addMini').onclick = () => {
   data.miniLinks.push({title:'Yeni kutu',icon:'web',url:''});
   renderMini();
   update();
+
   $('miniFields').lastElementChild.scrollIntoView({
     block:'center',behavior:'smooth'
   });
@@ -944,6 +1044,7 @@ function populate(){
 
   for(const k of ['backgroundMode','solidColor','pageColor']){
     $(k).value = data[k];
+
     $(k).oninput = () => {
       data[k] = $(k).value;
       colorOptions();
@@ -956,6 +1057,7 @@ function populate(){
   for(const k of ['coverHeight','coverPosition']){
     $(k).value = data[k];
     $(k + 'Value').textContent = data[k];
+
     $(k).oninput = () => {
       data[k] = Number($(k).value);
       $(k + 'Value').textContent = data[k];
@@ -967,7 +1069,8 @@ function populate(){
     ? 'Kapak fotoğrafı yüklü.'
     : 'Henüz kapak fotoğrafı seçilmedi.';
 
-  $('publicUrl').value = data.publicUrl || '';
+  data.publicUrl = CUSTOMER_URL;
+  $('publicUrl').value = CUSTOMER_URL;
   resetShare();
 
   for(const k of [
@@ -975,6 +1078,7 @@ function populate(){
     'website','topColor','bottomColor'
   ]){
     $(k).value = data[k];
+
     $(k).oninput = () => {
       data[k] = $(k).value;
       update();
@@ -987,11 +1091,13 @@ function populate(){
     $('socialFields').append(
       field(names[k],data.socials[k],(value,input) => {
         data.socials[k] = value.trim();
+
         input.setCustomValidity(
           !value.trim() || safe(value.trim(),true)
             ? ''
             : 'https:// ile başlayan geçerli adresi yaz.'
         );
+
         update();
       },k === 'whatsapp' ? 'https://wa.me/90…' : 'https://…')
     );
@@ -1016,6 +1122,7 @@ $('add').onclick = () => {
 
   renderLinks();
   update();
+
   $('linkFields').lastElementChild.scrollIntoView({
     block:'center',behavior:'smooth'
   });
@@ -1175,7 +1282,7 @@ $('download').onclick = () => {
   download(html(),'index.html','text/html;charset=utf-8');
 
   $('status').textContent =
-    'Müşteri sayfası indirildi. GitHub’daki index.html dosyasını bununla güncelle.';
+    'Müşteri sayfası indirildi. Web sitendeki /qr/ adresini sunan sayfayı bu dosyayla güncelle.';
 };
 
 $('backup').onclick = () => {
@@ -1232,57 +1339,12 @@ function resetShare(){
   $('openPublicUrl').hidden = true;
   $('openPublicUrl').removeAttribute('href');
   $('qrAddress').textContent = '';
-
-  $('shareStatus').textContent = $('publicUrl').value.trim()
-    ? 'Linki kopyalayabilir veya QR kod oluşturabilirsin.'
-    : 'Önce yayınlanan müşteri sayfasının adresini gir.';
+  $('shareStatus').textContent =
+    'Linki kopyalayabilir veya QR kod oluşturabilirsin.';
 }
 
 function shareUrl(){
-  const value = $('publicUrl').value.trim();
-
-  if(!value){
-    throw Error('Önce yayınlanan müşteri sayfasının adresini gir.');
-  }
-
-  let url;
-
-  try{
-    url = new URL(value);
-  }catch{
-    throw Error('https:// ile başlayan tam bir adres gir.');
-  }
-
-  if(!['https:','http:'].includes(url.protocol) ||
-    url.username || url.password){
-    throw Error('Geçerli bir http:// veya https:// adresi gir.');
-  }
-
-  if(url.href.length > 2000){
-    throw Error('Adres çok uzun. Daha kısa bir sayfa adresi kullan.');
-  }
-
-  if(['github.com','www.github.com'].includes(url.hostname)){
-    throw Error(
-      'Bu bir GitHub depo adresi. Settings → Pages bölümündeki yayın adresini kullan.'
-    );
-  }
-
-  const own = new URL(location.href);
-  own.hash = '';
-  own.search = '';
-
-  const target = new URL(url.href);
-  target.hash = '';
-  target.search = '';
-
-  if(target.href === own.href){
-    throw Error(
-      'Bu adres şu an açık olan admin panelini açıyor. Müşteri sayfasının adresini gir.'
-    );
-  }
-
-  return url.href;
+  return CUSTOMER_URL;
 }
 
 function revealUrl(url){
@@ -1290,22 +1352,8 @@ function revealUrl(url){
   $('openPublicUrl').hidden = false;
 }
 
-$('publicUrl').oninput = () => {
-  data.publicUrl = $('publicUrl').value.trim();
-  resetShare();
-  update();
-};
-
 $('copyPublicUrl').onclick = async () => {
-  let url;
-
-  try{
-    url = shareUrl();
-  }catch(error){
-    $('shareStatus').textContent = error.message;
-    return;
-  }
-
+  const url = shareUrl();
   let copied = false;
 
   try{
@@ -1345,15 +1393,12 @@ $('copyPublicUrl').onclick = async () => {
 
 $('createQr').onclick = () => {
   try{
-    const url = shareUrl();
-
     if(typeof qrcode !== 'function'){
-      throw Error(
-        'QR kütüphanesi yüklenemedi. İnternet bağlantını kontrol edip sayfayı yenile.'
-      );
+      throw Error('QR modülü başlatılamadı. Kodun tamamını kopyaladığından emin ol.');
     }
 
-    const qr = qrcode(0,'M');
+    const url = shareUrl();
+    const qr = qrcode();
     qr.addData(url);
     qr.make();
 
@@ -1370,10 +1415,10 @@ $('createQr').onclick = () => {
     ctx.fillRect(0,0,size,size);
     ctx.fillStyle = '#000';
 
-    for(let r=0;r<n;r++){
-      for(let c=0;c<n;c++){
-        if(qr.isDark(r,c)){
-          ctx.fillRect((c+4)*cell,(r+4)*cell,cell,cell);
+    for(let row=0;row<n;row++){
+      for(let col=0;col<n;col++){
+        if(qr.isDark(row,col)){
+          ctx.fillRect((col+4)*cell,(row+4)*cell,cell,cell);
         }
       }
     }
@@ -1385,26 +1430,23 @@ $('createQr').onclick = () => {
     revealUrl(url);
 
     $('shareStatus').textContent =
-      'QR kod hazır. Telefonunla okutarak doğru sayfanın açıldığını kontrol edebilirsin.';
+      'QR kod hazır. Telefonunla okutarak müşteri sayfasını açabilirsin.';
   }catch(error){
     qrModel = null;
     qrUrl = '';
     $('qrResult').hidden = true;
     $('shareStatus').textContent = error instanceof Error
-      ? error.message : 'QR kod oluşturulamadı.';
+      ? error.message
+      : 'QR kod oluşturulamadı.';
   }
 };
 
 function currentQr(){
-  try{
-    if(!qrModel || shareUrl() !== qrUrl){
-      throw Error('Önce bu adres için QR kod oluştur.');
-    }
-    return true;
-  }catch(error){
-    $('shareStatus').textContent = error.message;
+  if(!qrModel || shareUrl() !== qrUrl){
+    $('shareStatus').textContent = 'Önce QR kod oluştur.';
     return false;
   }
+  return true;
 }
 
 $('saveQrPng').onclick = () => {
@@ -1425,10 +1467,10 @@ $('saveQrSvg').onclick = () => {
   const size = n+8;
   let path = '';
 
-  for(let r=0;r<n;r++){
-    for(let c=0;c<n;c++){
-      if(qrModel.isDark(r,c)){
-        path += 'M' + (c+4) + ',' + (r+4) + 'h1v1h-1z';
+  for(let row=0;row<n;row++){
+    for(let col=0;col<n;col++){
+      if(qrModel.isDark(row,col)){
+        path += 'M' + (col+4) + ',' + (row+4) + 'h1v1h-1z';
       }
     }
   }
